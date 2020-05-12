@@ -3,8 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>index</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>	
+	.divBottom{		
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 10px;
+		text-align: center;
+	}
+	
+	.cash h1 {
+		text-align: center;
+		margin: 200px;
+	}
+	
+	.cash .memberBtn {
+		text-align: center;
+		margin: 20px;
+	}
+	
+	.cash .memberBtn a {
+		width: 400px;
+	}
+	
+</style>
 </head>
 <body>
-	<h1>가계부</h1>
+<div class="container-fluid">
+		
+	<div class="cash">
+		<h1>Cash Book</h1>
+		<div class="memberBtn"><a href="" class="btn btn-primary">로그인</a></div>
+		<div class="memberBtn"><a href="/addMember" class="btn btn-primary">회원가입</a></div>
+	</div>
+	<div class="divBottom">
+		본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수 있습니다.<br>
+		Copyright © JSsoft Corp. All Rights Reserved.
+	</div>
+	
+</div>
 </body>
 </html>
