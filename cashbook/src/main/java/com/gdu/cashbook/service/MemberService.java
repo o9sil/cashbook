@@ -16,4 +16,9 @@ public class MemberService {
 	public int addMember(Member member) {
 		return memberMapper.addMember(member);
 	}
+	
+	//회원가입 전 ID 존재 여부 확인
+	public int checkMemberId(String memberId) {
+		return memberMapper.checkMemberId(memberId);
+	}
 }

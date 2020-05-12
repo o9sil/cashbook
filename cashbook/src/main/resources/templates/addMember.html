@@ -13,6 +13,23 @@
 	}
 </style>
 <script>
+
+let checkMemberId = function(){
+	let memberId = $("#memberId").val();
+	let query = {memberId : $("#memberId").val()};	
+	let m = 0;
+	$.ajax({
+		url : "/memberIdCheck",
+		type: "get",
+		data : query,
+		async: false,
+		success : function(data){			
+			m = data;
+		}
+	});
+	return m;
+};
+
 let helperInit = function() {
 	$("#idHelper").text("");
 	$("#pwHelper").text("");
@@ -20,7 +37,7 @@ let helperInit = function() {
 	$("#addrHelper").text("");
 	$("#phoneHelper").text("");
 	$("#emailHelper").text("");
-}
+};
 
 $(document).ready(function(){
 	
@@ -50,7 +67,12 @@ $(document).ready(function(){
 			$("#emailHelper").text("이메일을 입력하세요.");
 			$("#memberEmail").focus();			
 		}else{
-			$("#myForm").submit();
+			if(checkMemberId()){
+				$("#idHelper").text("중복된 ID가 존재합니다.");
+				$("#memberId").focus();	
+			}else{
+				$("#myForm").submit();
+			}		
 		}
 	});
 	
@@ -67,7 +89,7 @@ $(document).ready(function(){
 		<form id="myForm" method="post" action="/addMember" class="addMemberForm">
 			<div>
 				아이디
-				<input type="text" name="memberId" id="memberId" class="form-control">
+				<input type="text" name="memberId" id="memberId" class="form-control">				
 				<span id="idHelper"></span>
 			</div>
 			<div>

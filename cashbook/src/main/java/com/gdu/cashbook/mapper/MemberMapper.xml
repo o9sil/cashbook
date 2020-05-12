@@ -7,4 +7,8 @@
 		INSERT INTO member(member_id, member_pw, member_name, member_addr, member_phone, member_email)
 		VALUES(#{memberId}, #{memberPw}, #{memberName}, #{memberAddr}, #{memberPhone}, #{memberEmail});
 	</insert>
+	
+	<select id="checkMemberId" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member WHERE member_id = #{memberId};
+	</select>
 </mapper>
