@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +24,28 @@ public class MemberController {
 	
 	//로그인 폼
 	@GetMapping("/login")
-	public String login() {
-		return "login";
+	public String login(HttpSession session) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		//로그인 되어있지 않을때만
+		return "login";		
 	}
 	
 	//로그인 액션
 	@PostMapping("/login")
-	public String login(LoginMember loginMember, HttpSession session) {
-		//System.out.println(loginMember);
+	public String login(Model model, LoginMember loginMember, HttpSession session) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
 		LoginMember returnLoginMember = memberService.login(loginMember);
+		//로그인 실패시 id는 사용자가 입력값 출력, 하단에 메세지 출력
 		if(returnLoginMember == null) {
-			return "redirect:/login";
+			model.addAttribute("id", loginMember.getMemberId());
+			model.addAttribute("msg", "아이디와 비밀번호를 확인하세요.");
+			return "login";
 		}else {	//로그인 성공시
 			session.setAttribute("loginMember", returnLoginMember);
 			return "redirect:/";
@@ -42,28 +54,39 @@ public class MemberController {
 	
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
-		//session.invalidate();
+		//로그인 한 상황이 아닐때
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
 		session.removeAttribute("loginMember");
 		return "redirect:/";
 	}
 	
 	//회원가입 폼
 	@GetMapping("/addMember")
-	public String addMember() {		
+	public String addMember(HttpSession session) {		
+		//로그인 중일때
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
 		return "addMember";
 	}
 	
 	//회원가입 액션
 	@PostMapping("/addMember")
-	public String addMember(Member member) {
+	public String addMember(Member member, HttpSession session) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
 		memberService.addMember(member);
 		return "redirect:/index";
 	}
 	
 	//ID 중복 체크
 	@ResponseBody
-	@GetMapping("/memberIdCheck")
-	public int idCheck(@RequestParam("memberId") String memberId) {
+	@PostMapping("/memberIdCheck")
+	public int idCheck(@RequestParam("memberId") String memberId, HttpSession session) {
 		//System.out.println("IDCHECK");
 		//System.out.println(memberService.checkMemberId(memberId));
 		return memberService.getMemberIdCnt(memberId);

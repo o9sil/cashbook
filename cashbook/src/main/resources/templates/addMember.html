@@ -19,7 +19,7 @@ let checkMemberId = function(){
 	let m = 0;
 	$.ajax({
 		url : "/memberIdCheck",
-		type: "get",
+		type: "post",
 		data : query,
 		async: false,
 		success : function(data){			

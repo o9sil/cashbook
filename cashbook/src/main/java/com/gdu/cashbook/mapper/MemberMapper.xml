@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+
+	<select id="selectMemberPw" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
+		SELECT
+			member_pw
+		FROM member
+		WHERE member_id = #{memberId}
+		AND member_email = #{memberEmail}
+	</select>
 	
 	<select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
 		SELECT 
@@ -34,6 +42,6 @@
 	<select id="selectMemberIdCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*) 
 		FROM member 
-		WHERE member_id = #{memberId};
+		WHERE member_id = #{memberId}
 	</select>
 </mapper>

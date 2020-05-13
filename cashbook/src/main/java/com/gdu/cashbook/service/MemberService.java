@@ -13,6 +13,11 @@ public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
 	
+	//비밀번호 찾기
+	public String getMemberPw(Member member) {
+		return memberMapper.selectMemberPw(member);
+	}
+	
 	//로그인
 	public LoginMember login(LoginMember loginMember) {
 		return memberMapper.selectLoginMember(loginMember);
