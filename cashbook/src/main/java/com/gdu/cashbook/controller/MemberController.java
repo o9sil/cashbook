@@ -37,6 +37,6 @@ public class MemberController {
 	public int idCheck(@RequestParam("memberId") String memberId) {
 		//System.out.println("IDCHECK");
 		//System.out.println(memberService.checkMemberId(memberId));
-		return memberService.checkMemberId(memberId);
+		return memberService.getMemberIdCnt(memberId);
 	}
 }

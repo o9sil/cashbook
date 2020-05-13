@@ -14,11 +14,11 @@ public class MemberService {
 	
 	//회원가입
 	public int addMember(Member member) {
-		return memberMapper.addMember(member);
+		return memberMapper.insertMember(member);
 	}
 	
 	//회원가입 전 ID 존재 여부 확인
-	public int checkMemberId(String memberId) {
-		return memberMapper.checkMemberId(memberId);
+	public int getMemberIdCnt(String memberId) {
+		return memberMapper.selectMemberIdCnt(memberId);
 	}
 }
