@@ -37,8 +37,14 @@
 		
 	<div class="cash">
 		<h1>Cash Book</h1>
-		<div class="memberBtn"><a href="" class="btn btn-primary">로그인</a></div>
-		<div class="memberBtn"><a href="/addMember" class="btn btn-primary">회원가입</a></div>
+		<div th:if="${session.loginMember != null}">
+			<div class="memberBtn"><a href="/logout" class="btn btn-primary" th:text="${session.loginMember.memberId} + '님 로그아웃'"></a></div>
+		</div>
+		<div th:if="${session.loginMember == null}">
+			<div class="memberBtn"><a href="/login" class="btn btn-primary">로그인</a></div>
+			<div class="memberBtn"><a href="/addMember" class="btn btn-primary">회원가입</a></div>
+		</div>
+		
 	</div>
 	<div class="divBottom">
 		본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수 있습니다.<br>
