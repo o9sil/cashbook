@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>memberInfo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<div style="padding-top: 60px">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th colspan="2">회원정보</th>						
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>아이디</td>
+							<td th:text="${member.memberId}"></td>
+						</tr>
+						<tr>
+							<td>이름</td>
+							<td th:text="${member.memberName}"></td>
+						</tr>
+						<tr>
+							<td>주소</td>
+							<td th:text="${member.memberAddr}"></td>
+						</tr>
+						<tr>
+							<td>전화번호</td>
+							<td th:text="${member.memberPhone}"></td>
+						</tr>
+						<tr>
+							<td>이메일</td>
+							<td th:text="${member.memberEmail}"></td>
+						</tr>
+					</tbody>
+				</table>				
+					
+				<div style="margin-top: 20px; text-align: center;">
+					<a th:href="@{/modifyPassword}" class="btn" style="background-color: #04B431; width: 200px;">비밀번호 수정</a>
+					<a th:href="@{/modifyMember}" class="btn" style="background-color: #819FF7; width: 200px;">회원정보 수정</a>
+					<a th:href="@{/removeMember}" class="btn" style="background-color: #F5A9BC; width: 200px;">회원 탈퇴</a>					
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

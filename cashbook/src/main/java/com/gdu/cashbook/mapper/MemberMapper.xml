@@ -4,21 +4,55 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
 
-	<select id="selectMemberPw" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
-		SELECT
-			member_pw
+	<update id="updateMemberPwOne" parameterType="com.gdu.cashbook.vo.UpdateMemberPw">
+		UPDATE member 
+		SET member_pw = PASSWORD(#{updateMemberPw})
+		WHERE member_id = #{memberId}
+		AND member_pw = PASSWORD(#{memberPw})
+	</update>
+
+	<delete id="deleteMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember">
+		DELETE 
 		FROM member
 		WHERE member_id = #{memberId}
-		AND member_email = #{memberEmail}
+		AND member_pw = PASSWORD(#{memberPw})
+	</delete>
+
+	<update id="updateMemberOne" parameterType="com.gdu.cashbook.vo.Member">
+		UPDATE member
+		SET 
+			member_name = #{memberName},
+			member_addr = #{memberAddr},
+			member_phone = #{memberPhone},
+			member_email = #{memberEmail}
+		WHERE member_id = #{memberId}
+	</update>
+
+	<select id="selectMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.Member">
+		SELECT 
+			member_id AS memberId,
+			member_name AS memberName,
+			member_addr AS memberAddr,
+			member_phone AS memberPhone,
+			member_email AS memberEmail
+		FROM member
+		WHERE member_id = #{memberId}		
 	</select>
+
+	<update id="updateMemberRandPw" parameterType="com.gdu.cashbook.vo.Member">
+		UPDATE member
+		SET member_pw = PASSWORD(#{memberPw})
+		WHERE member_id = #{memberId}
+		AND member_email = #{memberEmail}
+	</update>
+
 	
 	<select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
 		SELECT 
-			member_id AS memberId, 
-			member_pw AS memberPw
+			member_id AS memberId
 		FROM member
 		WHERE member_id = #{memberId} 
-		AND member_pw = #{memberPw}
+		AND member_pw = PASSWORD(#{memberPw})
 	</select>
 
 	<insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
@@ -31,7 +65,7 @@
 			member_email
 		) VALUES(
 			#{memberId}, 
-			#{memberPw}, 
+			PASSWORD(#{memberPw}), 
 			#{memberName}, 
 			#{memberAddr}, 
 			#{memberPhone}, 
@@ -40,8 +74,11 @@
 	</insert>
 	
 	<select id="selectMemberIdCnt" parameterType="String" resultType="int">
-		SELECT COUNT(*) 
-		FROM member 
-		WHERE member_id = #{memberId}
+		SELECT COUNT(*)
+		FROM
+			(SELECT member_id AS mi FROM member
+			UNION
+			SELECT memberid AS mi FROM memberid) t
+		WHERE mi = #{memberId};
 	</select>
 </mapper>

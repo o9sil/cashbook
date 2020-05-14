@@ -1,5 +1,6 @@
 package com.gdu.cashbook.controller;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,20 +21,26 @@ public class MailController {
 	
 	//비밀번호 찾기 폼으로 이동
 	@GetMapping("/searchPassword")
-	public String searchPassword() {
+	public String searchPassword() {				
 		return "searchPassword";
 	}
 	
 	//비밀번호 찾기 post(메일 전송)
 	@PostMapping("/searchPassword")
-	public String searchPaString(Member member) {		
+	public String searchPassword(Member member) {		
 		//System.out.println(member.getMemberId());
 		//System.out.println(member.getMemberEmail());
-		String memberPw = memberService.getMemberPw(member);
-		if(memberPw == null) {
+		
+		//랜덤으로 생성된 비밀번호 10자리
+		String updatePw = RandomStringUtils.randomAlphanumeric(10);
+		
+		member.setMemberPw(updatePw);
+		
+		//String memberPw = memberService.getMemberPw(member);
+		if(memberService.modifyMemberRandPw(member) == 0) {
 			return "redirect:/";
 		}else {
-			mailService.send(member.getMemberEmail(), "비밀번호 찾기", "비밀번호는 " + memberPw + " 입니다.");
+			mailService.send(member.getMemberEmail(), "비밀번호 찾기", "비밀번호는 " + updatePw + " 입니다.");
 		}
 				
 		return "redirect:/";
