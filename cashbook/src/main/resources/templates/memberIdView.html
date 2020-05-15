@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>findMemberId</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+	.search h1{
+		text-align: center;
+		margin: 100px;
+	}
+	.search .searchInput {
+		width: 400px;
+		margin: 20px;	
+		margin-left: auto;
+		margin-right: auto;	
+		text-align: center;
+	}
+	
+	.search .searchInput .memberBtn {
+		text-align: center;
+		margin-top: 20px;
+	}
+	
+	.search .searchInput .memberBtn a {
+		width: 400px;
+	}
+</style>
+</head>
+<body>
+<div class="container-fluid p-0">
+		
+	<div class="search">
+		<h1>아이디 찾기 결과</h1>		
+		
+		<div class="searchInput">
+			
+			<th:block th:each="mem : ${memberIdPart}">				
+				<input type="text" class="form-control" readonly="readonly" th:value="${mem}" style="margin-top: 10px">
+			</th:block>		
+			
+			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">로그인</a></div>
+			<div class="memberBtn"><a th:href="@{/addMember}" class="btn btn-primary">회원가입</a></div>	
+		</div>		
+		
+	</div>	
+	
+</div>	
+</body>
+</html>

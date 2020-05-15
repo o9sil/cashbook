@@ -26,6 +26,12 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>사진</td>
+							<td>
+								<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 100px;">
+							</td>
+						</tr>
+						<tr>
 							<td>아이디</td>
 							<td th:text="${member.memberId}"></td>
 						</tr>

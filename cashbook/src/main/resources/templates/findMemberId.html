@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>findMemberId</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+let helperInit = function() {
+	$("#nameHelper").text("");
+	$("#phoneHelper").text("");
+	$("#emailHelper").text("");	
+};
+$(document).ready(function(){
+	$("#btn").click(function(){
+		helperInit();
+		
+		if($("#memberName").val().length == 0){
+			$("#idHelper").text("이름를 입력하세요.");
+			$("#memberName").focus();	
+		}else if($("#memberPhone").val().length == 0){
+			$("#phoneHelper").text("전화번호를 입력하세요.");
+			$("#memberPhone").focus();	
+		}else if($("#memberEmail").val().length == 0){
+			$("#emailHelper").text("이메일를 입력하세요.");
+			$("#memberEmail").focus();	
+		}else{
+			$("#searchForm").submit();	
+		}
+	});
+});
+</script>
+<style>
+	.search h1{
+		text-align: center;
+		margin: 100px;
+	}
+	.search .searchInput {
+		width: 400px;
+		margin: 20px;	
+		margin-left: auto;
+		margin-right: auto;	
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+<div class="container-fluid p-0">
+		
+	<div class="search">
+		<h1>아이디 찾기</h1>		
+		<form id="searchForm" method="post" th:action="@{/findMemberId}">
+			<div class="searchInput">
+				<input type="text" id="memberName" name="memberName" class="form-control" placeholder="이름을 입력하세요.">	
+				<span id="nameHelper"></span>	
+			</div>
+			<div class="searchInput">
+				<input type="text" id="memberPhone" name="memberPhone" class="form-control" placeholder="전화번호를 입력하세요.">
+				<span id="emailHelper"></span>
+			</div>
+			<div class="searchInput">
+				<input type="text" id="memberEmail" name="memberEmail" class="form-control" placeholder="이메일를 입력하세요.">
+				<span id="phoneHelper"></span>
+			</div>			
+			<div class="searchInput">		
+				<button type="button" id="btn" class="btn btn-primary btn-block">아이디 찾기</button>
+			</div>
+			<div class="searchInput">
+				<a th:href="@{/}" class="btn btn-primary btn-block">메인페이지로</a>				
+			</div>
+		</form>
+	</div>	
+	
+</div>	
+</body>
+</html>

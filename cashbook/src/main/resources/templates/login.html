@@ -50,7 +50,7 @@ $(document).ready(function(){
 		
 	<div class="login">
 		<h1>Login</h1>		
-		<form id="loginForm" method="post" action="/login">
+		<form id="loginForm" method="post" th:action="@{/login}">
 			<div class="loginInput">
 				<input type="text" id="memberId" name="memberId" class="form-control" placeholder="아이디를 입력하세요." th:value="${id}">	
 				<span id="idHelper"></span>	
@@ -60,10 +60,14 @@ $(document).ready(function(){
 				<span id="pwHelper" th:text="${msg}"></span>
 			</div>	
 			<div class="loginInput">
-				<a href="/searchPassword">비밀번호 찾기</a>
+				<a href="/findMemberId">아이디 찾기</a>
+				<a href="/findMemberPw">비밀번호 찾기</a>
 			</div>
 			<div class="loginInput">		
 				<button type="button" id="btn" class="btn btn-primary btn-block">로그인</button>
+			</div>
+			<div class="loginInput">
+				<a th:href="@{/addMember}" class="btn btn-primary btn-block">회원가입하기</a>				
 			</div>
 		</form>
 	</div>	

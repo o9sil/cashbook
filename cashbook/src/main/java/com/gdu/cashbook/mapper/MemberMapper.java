@@ -9,6 +9,9 @@ import com.gdu.cashbook.vo.UpdateMemberPw;
 @Mapper
 public interface MemberMapper {
 	
+	//ID 찾기
+	public String[] selectMemberIdByMember(Member member);
+	
 	//비밀번호 변경
 	public int updateMemberPwOne(UpdateMemberPw updateMemberPw);
 	

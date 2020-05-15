@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
 
+	<!-- ID 찾기(문자열 일부만 보여주기) -->
+	<select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
+		SELECT CONCAT(SUBSTRING(member_id, 1, 3), '****')
+		FROM member
+		WHERE member_name = #{memberName}
+		AND member_phone = #{memberPhone}
+		AND member_email = #{memberEmail}
+	</select>
+
+	<!-- 비밀번호 변경 -->
 	<update id="updateMemberPwOne" parameterType="com.gdu.cashbook.vo.UpdateMemberPw">
 		UPDATE member 
 		SET member_pw = PASSWORD(#{updateMemberPw})
@@ -11,6 +21,7 @@
 		AND member_pw = PASSWORD(#{memberPw})
 	</update>
 
+	<!-- 회원탈퇴 -->
 	<delete id="deleteMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember">
 		DELETE 
 		FROM member
@@ -18,6 +29,7 @@
 		AND member_pw = PASSWORD(#{memberPw})
 	</delete>
 
+	<!-- 회원정보 수정 -->
 	<update id="updateMemberOne" parameterType="com.gdu.cashbook.vo.Member">
 		UPDATE member
 		SET 
@@ -28,17 +40,20 @@
 		WHERE member_id = #{memberId}
 	</update>
 
+	<!-- 회원 개인정보 가져오기 -->
 	<select id="selectMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.Member">
 		SELECT 
 			member_id AS memberId,
 			member_name AS memberName,
 			member_addr AS memberAddr,
 			member_phone AS memberPhone,
-			member_email AS memberEmail
+			member_email AS memberEmail,
+			member_pic AS memberPic
 		FROM member
 		WHERE member_id = #{memberId}		
 	</select>
 
+	<!-- 비밀번호 찾기시 랜덤으로 비밀번호 변경 -->
 	<update id="updateMemberRandPw" parameterType="com.gdu.cashbook.vo.Member">
 		UPDATE member
 		SET member_pw = PASSWORD(#{memberPw})
@@ -46,7 +61,7 @@
 		AND member_email = #{memberEmail}
 	</update>
 
-	
+	<!-- 로그인 시도 -->
 	<select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
 		SELECT 
 			member_id AS memberId
@@ -55,6 +70,7 @@
 		AND member_pw = PASSWORD(#{memberPw})
 	</select>
 
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
 		INSERT INTO member(
 			member_id, 
@@ -73,6 +89,7 @@
 		);
 	</insert>
 	
+	<!-- 회원가입시 db에 동일한 ID가 있는지 확인 -->
 	<select id="selectMemberIdCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM

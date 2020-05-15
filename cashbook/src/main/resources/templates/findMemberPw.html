@@ -46,8 +46,8 @@ $(document).ready(function(){
 <div class="container-fluid p-0">
 		
 	<div class="search">
-		<h1>Login</h1>		
-		<form id="searchForm" method="post" action="/searchPassword">
+		<h1>비밀번호 찾기</h1>		
+		<form id="searchForm" method="post" th:action="@{/findMemberPw}">
 			<div class="searchInput">
 				<input type="text" id="memberId" name="memberId" class="form-control" placeholder="아이디를 입력하세요.">	
 				<span id="idHelper"></span>	
@@ -58,6 +58,9 @@ $(document).ready(function(){
 			</div>			
 			<div class="searchInput">		
 				<button type="button" id="btn" class="btn btn-primary btn-block">비밀번호 찾기</button>
+			</div>
+			<div class="searchInput">
+				<a th:href="@{/}" class="btn btn-primary btn-block">메인페이지로</a>				
 			</div>
 		</form>
 	</div>	

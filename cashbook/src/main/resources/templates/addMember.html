@@ -14,6 +14,12 @@
 </style>
 <script>
 
+//email 정규식
+function isEmail(asValue) {
+	var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+}
+
 let checkMemberId = function(){	
 	let query = {memberId : $("#memberId").val()};	
 	let m = 0;
@@ -65,6 +71,9 @@ $(document).ready(function(){
 		}else if($("#memberEmail").val().length === 0){
 			$("#emailHelper").text("이메일을 입력하세요.");
 			$("#memberEmail").focus();			
+		}else if(!isEmail($("#memberEmail").val())){
+			$("#emailHelper").text("이메일 형식이 맞지 않습니다.");
+			$("#memberEmail").focus();			
 		}else{
 			if(checkMemberId()){
 				$("#idHelper").text("중복된 ID가 존재합니다.");
@@ -85,7 +94,7 @@ $(document).ready(function(){
 	<div class="col"></div>
 	<div class="col">
 		<h1 style="text-align: center; margin: 40px">회원가입</h1>
-		<form id="myForm" method="post" action="/addMember" class="addMemberForm">
+		<form id="myForm" method="post" class="addMemberForm" th:action="@{/addMember}">
 			<div>
 				아이디
 				<input type="text" name="memberId" id="memberId" class="form-control">				
@@ -123,7 +132,11 @@ $(document).ready(function(){
 			<div>
 				<button type="button" id="btn" class="btn btn-primary btn-block btn-lg">회원가입</button>
 			</div>
+			<div>
+				<a th:href="@{/}" class="btn btn-primary btn-block btn-lg">메인페이지로</a>				
+			</div>
 		</form>
+			
 	</div>
 	<div class="col"></div>
 </div>

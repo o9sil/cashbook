@@ -2,6 +2,7 @@ package com.gdu.cashbook.controller;
 
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
@@ -20,6 +22,60 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	//아이디 찾기 폼
+	@GetMapping("/findMemberId")
+	public String findMemberId(HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}		
+		return "findMemberId";
+	}
+	
+	//아이디 찾기 액션
+	@PostMapping("/findMemberId")
+	public String findMemberId(HttpSession session, Model model, Member member) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		
+		String[] memberIdPart = memberService.getMemberIdByMember(member);
+		if(memberIdPart.length == 0) {
+			model.addAttribute("memberIdPart", "해당하는 아이디가 없습니다.");
+		}else {
+			model.addAttribute("memberIdPart", memberIdPart);
+		}
+		return "memberIdView";
+	}
+	
+	
+	//비밀번호 찾기 폼으로 이동
+	@GetMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session) {	
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		
+		return "findMemberPw";
+	}
+	
+	//비밀번호 찾기 post(메일 전송)
+	@PostMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session, Member member, RedirectAttributes redirect) {			
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		String msg = "";
+		if(memberService.modifyMemberRandPw(member) == 0) {
+			msg = "아이디와 메일을 확인하세요.";
+		}else {
+			msg = "입력한 메일로 임시 비밀번호를 전송하였습니다.";
+		}
+	
+		redirect.addAttribute("msg", msg);				
+		
+		return "redirect:/";
+	}
 	
 	//비밀번호 수정 액션
 	@PostMapping("/modifyPassword")

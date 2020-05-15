@@ -10,6 +10,12 @@
 <link th:href="@{/styles/css/menu.css}" rel="stylesheet">
 <script>
 
+//email 정규식
+function isEmail(asValue) {
+	var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+}
+
 let helperInit = function() {
 	$("#nameHelper").text("");
 	$("#addrHelper").text("");
@@ -34,6 +40,9 @@ $(document).ready(function(){
 		}else if($("#memberEmail").val().length == 0){
 			$("#emailHelper").text("이메일을 입력하세요.");
 			$("#memberEmail").focus();	
+		}else if(!isEmail($("#memberEmail").val())){
+			$("#emailHelper").text("이메일 형식이 맞지 않습니다.");
+			$("#memberEmail").focus();
 		}else{
 			$("#modifyForm").submit();
 		}
@@ -50,7 +59,7 @@ $(document).ready(function(){
 		</div>
 		<div class="col-sm-11">
 			<div style="padding-top: 60px">
-				<form id="modifyForm" method="post" action="/modifyMember">
+				<form id="modifyForm" method="post" th:action="@{/modifyMember}">
 					<table class="table">
 						<thead class="thead-dark">
 							<tr>
