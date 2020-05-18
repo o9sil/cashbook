@@ -68,6 +68,12 @@ $(document).ready(function(){
 						</thead>
 						<tbody>
 							<tr>
+								<td>사진</td>
+								<td>
+									<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;">
+								</td>
+							</tr>
+							<tr>
 								<td width="20%">아이디</td>
 								<td><input id="memberId" name="memberId" type="text" class="form-control" th:value="${member.memberId}" readonly="readonly"></td>
 							</tr>						

@@ -85,6 +85,13 @@ $(document).ready(function(){
 	});
 	
 	
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+	
+	
 });
 </script>
 </head>
@@ -94,7 +101,15 @@ $(document).ready(function(){
 	<div class="col"></div>
 	<div class="col">
 		<h1 style="text-align: center; margin: 40px">회원가입</h1>
-		<form id="myForm" method="post" class="addMemberForm" th:action="@{/addMember}">
+		<form id="myForm" method="post" class="addMemberForm" th:action="@{/addMember}" enctype="multipart/form-data">
+			<div style="margin-bottom: 0px;">
+				사진
+				<div class="custom-file mb-3">
+		      		<input type="file" class="custom-file-input" id="memberPic" name="memberPic">
+		      		<label class="custom-file-label" for="memberPic">사진을 선택하세요.</label>
+		    	</div>				
+			</div>
+		
 			<div>
 				아이디
 				<input type="text" name="memberId" id="memberId" class="form-control">				

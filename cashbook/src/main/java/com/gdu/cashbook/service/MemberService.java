@@ -1,19 +1,25 @@
 package com.gdu.cashbook.service;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.mapper.MemberidMapper;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Service
+@Transactional
 public class MemberService {
 
 	@Autowired private MemberMapper memberMapper;	
@@ -30,8 +36,7 @@ public class MemberService {
 	public int modifyMemberPwOne(UpdateMemberPw updateMemberPw) {
 		return memberMapper.updateMemberPwOne(updateMemberPw);
 	}
-	
-	@Transactional
+		
 	//회원탈퇴(트랜잭션 처리필요) - member 테이블에서 삭제, memberid 테이블에 추가
 	public int removeInsertMemberOne(LoginMember loginMember) {
 		//트랜잭션 처리를 위한 제어문
@@ -77,8 +82,53 @@ public class MemberService {
 	}
 	
 	//회원가입
-	public int addMember(Member member) {
-		return memberMapper.insertMember(member);
+	public int addMember(MemberForm memberForm) {
+		
+		//사진 업로드 했을때만		
+		MultipartFile mf = memberForm.getMemberPic();
+		String memberPic = null;
+		
+		// 확장자 필요
+		String originName = mf.getOriginalFilename();
+		//System.out.println("originName = " + originName);
+		
+		if(originName.length() < 1) {
+			//System.out.println("파일없음");
+			memberPic = "default.jpg";			
+		}else {
+			//System.out.println("사진 업로드");
+			int lastDot = originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			memberPic = memberForm.getMemberId() + extension;
+			
+			// 2. 파일 저장
+			String path = "D:\\git-cashbook\\cashbook\\src\\main\\resources\\static\\styles\\upload";
+			File file = new File(path + "\\" + memberPic);
+			try {
+				mf.transferTo(file);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException();	//예외를 강제로 발생시켜주어야 함(catch 절에서 종료가 되면 트랜잭션 처리가 안됨)
+				// Exception
+				// 1. 예외처리를 해야만 문법적으로 이상없는 예외
+				// 2. 예외처리를 코드에서 구현하지 않아도 아무문제 없는 예외 RuntimeException
+			}
+		}
+		
+		
+		// 1. DB 저장
+		Member member = new Member();		
+		member.setMemberId(memberForm.getMemberId());
+		member.setMemberPw(memberForm.getMemberPw());
+		member.setMemberAddr(memberForm.getMemberAddr());
+		member.setMemberEmail(memberForm.getMemberEmail());
+		member.setMemberName(memberForm.getMemberName());
+		member.setMemberPhone(memberForm.getMemberPhone());
+		member.setMemberPic(memberPic);
+				
+		int row = memberMapper.insertMember(member);	
+		
+		return row;
 	}
 	
 	//회원가입 전 ID 존재 여부 확인

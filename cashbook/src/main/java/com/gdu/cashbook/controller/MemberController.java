@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Controller
@@ -230,12 +231,13 @@ public class MemberController {
 	
 	//회원가입 액션
 	@PostMapping("/addMember")
-	public String addMember(Member member, HttpSession session) {
+	public String addMember(MemberForm memberForm, HttpSession session) {
 		//로그인 중일때
 		if(session.getAttribute("loginMember") != null) {
 			return "redirect:/";
-		}
-		memberService.addMember(member);
+		}		
+				
+		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}
 	
