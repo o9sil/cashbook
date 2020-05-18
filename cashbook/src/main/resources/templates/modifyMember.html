@@ -8,6 +8,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+
+<script th:inline="javascript">
+	var userImg = "/styles/upload/" +[[${member.memberPic}]];		
+</script>
+
 <script>
 
 //email 정규식
@@ -21,9 +26,13 @@ let helperInit = function() {
 	$("#addrHelper").text("");
 	$("#phoneHelper").text("");
 	$("#emailHelper").text("");
+	$("#imgHelper").text("");
 };
 
 $(document).ready(function(){
+	
+	let imageTrue = true;
+	
 	$("#btn").click(function(){
 		
 		helperInit();
@@ -43,12 +52,53 @@ $(document).ready(function(){
 		}else if(!isEmail($("#memberEmail").val())){
 			$("#emailHelper").text("이메일 형식이 맞지 않습니다.");
 			$("#memberEmail").focus();
+		}else if(!imageTrue){
+			$("#imgHelper").text("이미지 형식이 맞지 않습니다.");	
 		}else{
 			$("#modifyForm").submit();
 		}
 	});
+	
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+	
+	let sel_file;
+	
+	$("#memberPic").on("change", handleImgFileSelect);
+	
+	function handleImgFileSelect(e){		
+		helperInit();
+		$("#img").attr("src", userImg);
+		imageTrue = true;
+		let files = e.target.files;
+		let filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f){		
+			
+			if(!f.type.match("image.*")){				
+				imageTrue = false;
+				return;
+			}
+			imageTrue = true;
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+	
+	
 });
 </script>
+
+
 
 </head>
 <body>
@@ -59,7 +109,7 @@ $(document).ready(function(){
 		</div>
 		<div class="col-sm-11">
 			<div style="padding-top: 60px">
-				<form id="modifyForm" method="post" th:action="@{/modifyMember}">
+				<form id="modifyForm" method="post" th:action="@{/modifyMember}" enctype="multipart/form-data">
 					<table class="table">
 						<thead class="thead-dark">
 							<tr>
@@ -70,7 +120,12 @@ $(document).ready(function(){
 							<tr>
 								<td>사진</td>
 								<td>
-									<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;">
+									<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;" id="img">
+									<div class="custom-file mb-3" style="margin-top: 10px">
+							      		<input type="file" class="custom-file-input" id="memberPic" name="memberPic">
+							      		<label class="custom-file-label" for="memberPic"></label>
+							    	</div>
+							    	<span id="imgHelper"></span>
 								</td>
 							</tr>
 							<tr>

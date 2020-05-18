@@ -4,6 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
 
+	<!-- 사용자 사진 정보 가져오기 -->
+	<select id="selectMemberPic" parameterType="String" resultType="String">
+		SELECT member_pic
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+
 	<!-- ID 찾기(문자열 일부만 보여주기) -->
 	<select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
 		SELECT CONCAT(SUBSTRING(member_id, 1, 3), '****')
@@ -37,6 +44,9 @@
 			member_addr = #{memberAddr},
 			member_phone = #{memberPhone},
 			member_email = #{memberEmail}
+		<if test="memberPic != null">
+			, member_pic = #{memberPic}
+		</if>
 		WHERE member_id = #{memberId}
 	</update>
 

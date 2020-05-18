@@ -9,6 +9,9 @@ import com.gdu.cashbook.vo.UpdateMemberPw;
 @Mapper
 public interface MemberMapper {
 	
+	//회원 사진정보 가져오기
+	public String selectMemberPic(String memberId);
+	
 	//ID 찾기
 	public String[] selectMemberIdByMember(Member member);
 	

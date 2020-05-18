@@ -132,13 +132,13 @@ public class MemberController {
 	
 	//회원정보 수정 액션
 	@PostMapping("/modifyMember")
-	public String modifyMember(HttpSession session, Member member) {
+	public String modifyMember(HttpSession session, MemberForm memberForm) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/login";
 		}
 		
-		memberService.modifyMemberOne(member);
+		memberService.modifyMemberOne(memberForm);
 				
 		return "redirect:/memberInfo";
 	}

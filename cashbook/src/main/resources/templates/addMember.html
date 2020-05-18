@@ -42,9 +42,13 @@ let helperInit = function() {
 	$("#addrHelper").text("");
 	$("#phoneHelper").text("");
 	$("#emailHelper").text("");
+	$("#imgHelper").text("");
 };
 
 $(document).ready(function(){
+	
+	let imageTrue = true;
+	
 	
 	$("#btn").click(function(){
 		
@@ -74,6 +78,8 @@ $(document).ready(function(){
 		}else if(!isEmail($("#memberEmail").val())){
 			$("#emailHelper").text("이메일 형식이 맞지 않습니다.");
 			$("#memberEmail").focus();			
+		}else if(!imageTrue){
+			$("#imgHelper").text("이미지 형식이 맞지 않습니다.");	
 		}else{
 			if(checkMemberId()){
 				$("#idHelper").text("중복된 ID가 존재합니다.");
@@ -92,6 +98,37 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	
+	
+	let sel_file;
+	
+	$("#memberPic").on("change", handleImgFileSelect);
+	
+	function handleImgFileSelect(e){
+		helperInit();
+		$("#img").attr("src", "");
+		imageTrue = true;
+		let files = e.target.files;
+		let filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f){			
+			
+			if(!f.type.match("image.*")){				
+				imageTrue = false;
+				return;
+			}
+			imageTrue = true;
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
 });
 </script>
 </head>
@@ -106,8 +143,14 @@ $(document).ready(function(){
 				사진
 				<div class="custom-file mb-3">
 		      		<input type="file" class="custom-file-input" id="memberPic" name="memberPic">
-		      		<label class="custom-file-label" for="memberPic">사진을 선택하세요.</label>
+		      		<label class="custom-file-label" for="memberPic"></label>
 		    	</div>				
+			</div>
+			<div>
+				<div class="img_wrap">
+					<img id="img" width="150px;">
+					<span id="imgHelper"></span>
+				</div>
 			</div>
 		
 			<div>
