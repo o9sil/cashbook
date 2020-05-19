@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>getListByDate</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#box-left {  
+	flex: 1;  
+}
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+#box-right {  
+	flex: 1;
+	text-align: right;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<h3 style="padding-top: 30px">
+				2020년 가계부
+			</h3>
+			
+			<div id="header">		
+				<div id="box-left">
+					<a href="" class="btn btn-outline-info">이전</a>					
+				</div>		
+				<div id="box-center">
+					<h4>2020년 5월 19일</h4>					
+				</div>
+				<div id="box-right">
+					<a href="" class="btn btn-outline-info">이후</a>
+				</div>
+			</div>
+		
+			<div style="padding-top: 30px">
+				<table class="table table-bordered" style="text-align: center;">
+					<thead class="thead-light">
+						<tr>
+							<th style="width: 10%">카테고리</th>
+							<th style="width: 15%">수입</th>
+							<th style="width: 15%">지출</th>
+							<th style="width: 15%">장소</th>
+							<th style="width: 35%">메모</th>
+							<th style="width: 5%">삭제</th>
+							<th style="width: 5%">수정</th>						
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="list, num:${cashList}">
+							<td th:text="${list.categoryName}"></td>
+							<th:block th:if="${list.cashKind.toString().equals('수입')}">
+								
+								<td th:text="${#numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>
+								<td></td>
+							</th:block>
+							<th:block th:if="${list.cashKind.toString().equals('지출')}">
+								<td></td>
+								<td th:text="${#numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>								
+							</th:block>
+							
+							<td th:text="${list.cashPlace}"></td>
+							<td th:text="${list.cashMemo}"></td>
+							<td>삭제</td>
+							<td>수정</td>
+						</tr>						
+					</tbody>
+				</table>				
+					
+				
+			</div>
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>
