@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>getListByMonth</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#box-left {  
+	flex: 1;  
+}
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+#box-right {  
+	flex: 1;
+	text-align: right;
+}
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+
+</style>
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<h3 style="padding-top: 30px">
+				2020년 가계부
+			</h3>
+			
+			<div id="header">		
+				<div id="box-left">					
+					<a th:href="@{/getCashListByMonth(yearMonth=${yearMonthBefore})}" class="btn btn-light btnS">이전</a>					
+				</div>		
+				<div id="box-center">
+					<h4>
+						<th:block th:text="${yearMonth}"></th:block>						
+					</h4>					
+				</div>
+				<div id="box-right">
+					<a th:href="@{/getCashListByMonth(yearMonth=${yearMonthAfter})}" class="btn btn-light btnS">다음</a>
+				</div>
+			</div>
+		
+			<div style="padding-top: 30px">
+				<table class="table table-bordered" style="text-align: center;">
+					<thead class="thead-light">
+						<tr>
+												
+						</tr>
+					</thead>
+					<tbody>
+											
+					</tbody>
+				</table>	
+			</div>
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

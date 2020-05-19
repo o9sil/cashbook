@@ -49,15 +49,15 @@
 			
 			<div id="header">		
 				<div id="box-left">					
-					<a th:href="@{/getCashListByDate(date=${cashDate.minusDays(1)})}" class="btn btn-light btnS">이전</a>					
+					<a th:href="@{/getCashListByDate(day=${day.minusDays(1)})}" class="btn btn-light btnS">이전</a>					
 				</div>		
 				<div id="box-center">
 					<h4>
-						<th:block th:text="${cashDate}"></th:block>
+						<a th:href="@{/getCashListByMonth(yearMonth=${yearMonth})}" th:text="${day} + ' ' + ${day.getDayOfWeek()}"></a>						
 					</h4>					
 				</div>
 				<div id="box-right">
-					<a th:href="@{/getCashListByDate(date=${cashDate.plusDays(1)})}" class="btn btn-light btnS">다음</a>
+					<a th:href="@{/getCashListByDate(day=${day.plusDays(1)})}" class="btn btn-light btnS">다음</a>
 				</div>
 			</div>
 		
@@ -89,7 +89,9 @@
 							
 							<td th:text="${list.cashPlace}"></td>
 							<td th:text="${list.cashMemo}"></td>
-							<td>삭제</td>
+							<td>
+								<a th:href="@{/removeCashOne(cashNo=${list.cashNo})}">삭제</a>
+							</td>
 							<td>수정</td>
 						</tr>						
 					</tbody>
@@ -98,12 +100,12 @@
 			
 			
 			<div style="margin: 20px">
-				<a href="" class="btn btn-light">입력</a>
+				<a href="" class="btn btn-info" style="width: 100px">입력</a>
 			</div>
 			<div style="text-align: right; margin-right: 40px;">				
 				<h3>
 					합계&nbsp;&nbsp;
-					<th:block th:text="${#numbers.formatInteger(cashSum, 0, 'COMMA')}+'원'"></th:block>					
+					<th:block th:text="${#numbers.formatInteger(cashKindSum, 0, 'COMMA')}+'원'"></th:block>					
 				</h3>				
 			</div>
 
