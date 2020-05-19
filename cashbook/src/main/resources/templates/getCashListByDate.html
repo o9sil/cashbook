@@ -26,6 +26,14 @@
 	flex: 1;
 	text-align: right;
 }
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+
 </style>
 </head>
 <body>
@@ -40,14 +48,16 @@
 			</h3>
 			
 			<div id="header">		
-				<div id="box-left">
-					<a href="" class="btn btn-outline-info">이전</a>					
+				<div id="box-left">					
+					<a th:href="@{/getCashListByDate(date=${cashDate.minusDays(1)})}" class="btn btn-light btnS">이전</a>					
 				</div>		
 				<div id="box-center">
-					<h4>2020년 5월 19일</h4>					
+					<h4>
+						<th:block th:text="${cashDate}"></th:block>
+					</h4>					
 				</div>
 				<div id="box-right">
-					<a href="" class="btn btn-outline-info">이후</a>
+					<a th:href="@{/getCashListByDate(date=${cashDate.plusDays(1)})}" class="btn btn-light btnS">다음</a>
 				</div>
 			</div>
 		
@@ -67,14 +77,14 @@
 					<tbody>
 						<tr th:each="list, num:${cashList}">
 							<td th:text="${list.categoryName}"></td>
-							<th:block th:if="${list.cashKind.toString().equals('수입')}">
-								
-								<td th:text="${#numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>
+							
+							<th:block th:if="${list.cashKind.toString().equals('수입')}">								
+								<td th:text="${'+' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>
 								<td></td>
 							</th:block>
 							<th:block th:if="${list.cashKind.toString().equals('지출')}">
 								<td></td>
-								<td th:text="${#numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>								
+								<td th:text="${'-' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>								
 							</th:block>
 							
 							<td th:text="${list.cashPlace}"></td>
@@ -83,9 +93,18 @@
 							<td>수정</td>
 						</tr>						
 					</tbody>
-				</table>				
-					
-				
+				</table>	
+			</div>
+			
+			
+			<div style="margin: 20px">
+				<a href="" class="btn btn-light">입력</a>
+			</div>
+			<div style="text-align: right; margin-right: 40px;">				
+				<h3>
+					합계&nbsp;&nbsp;
+					<th:block th:text="${#numbers.formatInteger(cashSum, 0, 'COMMA')}+'원'"></th:block>					
+				</h3>				
 			</div>
 
 
