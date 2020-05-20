@@ -12,6 +12,9 @@ import com.gdu.cashbook.vo.DayAndPrice;
 @Mapper
 public interface CashMapper {
 	
+	//가계부 내역 추가
+	public int insertCashOne(Cash cash);
+	
 	//현재 날짜 가져오기
 	public LocalDate selectDateOne(int cashNo);
 	

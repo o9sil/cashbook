@@ -17,6 +17,10 @@ public class CashService {
 	
 	@Autowired private CashMapper cashMapper;
 	
+	public int addCashOne(Cash cash) {
+		return cashMapper.insertCashOne(cash);
+	}
+	
 	public LocalDate getDateOne(int cashNo) {
 		return cashMapper.selectDateOne(cashNo);
 	}

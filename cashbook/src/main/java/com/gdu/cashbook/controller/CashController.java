@@ -16,10 +16,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.common.CalendarOutPutCommon;
 import com.gdu.cashbook.service.CashService;
+import com.gdu.cashbook.service.CategoryService;
 import com.gdu.cashbook.vo.CalendarOutput;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
@@ -29,12 +31,35 @@ import com.gdu.cashbook.vo.LoginMember;
 public class CashController {
 	
 	@Autowired private CashService cashService;
-		
-	@GetMapping("/addCashOne")
-	public String addCashOne(HttpSession session) {
+	@Autowired private CategoryService categoryService;
+	
+	@PostMapping("/addCashOne")
+	public String addCashOne(HttpSession session, Cash cash, @RequestParam(value = "cashDatePicker", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		
+		LoginMember loginMember = null;
+		if(session.getAttribute("loginMember") instanceof LoginMember) {
+			loginMember = (LoginMember)session.getAttribute("loginMember");			
+		}
+		
+		cash.setMemberId(loginMember.getMemberId());
+		cash.setCashDate(day);
+		
+		cashService.addCashOne(cash);		
+		
+		return "redirect:/getCashListByDate?day=" + day;
+	}
+		
+	@GetMapping("/addCashOne")
+	public String addCashOne(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		List<String> categoryList = categoryService.getCategoryList();		
+		model.addAttribute("category", categoryList);
 		
 		return "addCashOne";
 	}

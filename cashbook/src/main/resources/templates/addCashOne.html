@@ -8,7 +8,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
+<script>
+let helperInit = function(){
+	$("#cashPrice").text("");
+};
+
+$(document).ready(function(){
+	
+
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
+	
+	$("#btn").click(function(){		
+		helperInit();
+		
+		if($("#cashPrice").val().length === 0){
+			$("#priceHelper").text("금액을 입력하세요.");			
+		}else{
+			$("#myForm").submit();
+		}	
+	});
+	
+	
+});
+</script>
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -18,42 +47,67 @@
 		</div>
 		<div class="col-sm-11">
 			<div style="padding-top: 60px">
-				<table class="table">
-					<thead class="thead-dark">
-						<tr>
-							<th colspan="2">수입/지출 입력</th>						
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>카테고리</td>
-							<td>
-								
-							</td>
-						</tr>
-						<tr>
-							<td>수입/지출</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>금액</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>장소</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>메모</td>
-							<td></td>
-						</tr>
+				<form id="myForm" method="post" th:action="@{/addCashOne}">
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th colspan="2">수입/지출 입력</th>						
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>날짜선택</td>
+								<td>									
+									<input id="datepicker" name="cashDatePicker" width="auto">
+									
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 15%;">카테고리</td>
+								<td>
+									<select name="categoryName" class="custom-select">
+										<th:block th:each="c, num:${category}">
+											<option th:value="${c}" th:text="${c}"></option>							  	
+									  	</th:block>
+									</select>											
+								</td>
+							</tr>
+							<tr>
+								<td>수입/지출</td>
+								<td>
+									<select name="cashKind" class="custom-select">
+										<option th:value="수입">수입</option>
+										<option th:value="지출">지출</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>금액</td>
+								<td>
+									<input type="text" class="form-control" id="cashPrice" name="cashPrice">
+									<span id="priceHelper"></span>
+								</td>
+							</tr>
+							<tr>
+								<td>장소</td>
+								<td>
+									<input type="text" class="form-control" id="cashPlace" name="cashPlace">
+								</td>
+							</tr>
+							<tr>
+								<td>메모</td>
+								<td>
+									<input type="text" class="form-control" id="cashMemo" name="cashMemo">
+								</td>
+							</tr>
+							
+						</tbody>
+					</table>				
 						
-					</tbody>
-				</table>				
-					
-				<div style="margin-top: 20px; text-align: center;">
-					<a th:href="@{/}" class="btn" style="background-color: #819FF7 ; width: 200px;">입력</a>				
-				</div>
+					<div style="margin-top: 20px; text-align: center;">
+						<button type="button" id="btn" class="btn" style="background-color: #819FF7 ; width: 200px;">입력</button>									
+					</div>
+				</form>
 			</div>
 
 
