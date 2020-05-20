@@ -53,7 +53,8 @@
 				</div>		
 				<div id="box-center">
 					<h4>
-						<a th:href="@{/getCashListByMonth(yearMonth=${yearMonth})}" th:text="${day} + ' ' + ${day.getDayOfWeek()}"></a>						
+						<!-- <a th:href="@{/getCashListByMonth(yearMonth=${yearMonth})}" th:text="${day} + ' ' + ${day.getDayOfWeek()}"></a> -->
+						<th:block th:text="${day} + ' ' + ${day.getDayOfWeek()}"></th:block>
 					</h4>					
 				</div>
 				<div id="box-right">
@@ -100,7 +101,7 @@
 			
 			
 			<div style="margin: 20px">
-				<a href="" class="btn btn-info" style="width: 100px">입력</a>
+				<a th:href="@{/addCashOne}" class="btn btn-info" style="width: 100px">입력</a>
 			</div>
 			<div style="text-align: right; margin-right: 40px;">				
 				<h3>

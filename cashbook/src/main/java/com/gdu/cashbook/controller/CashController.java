@@ -1,9 +1,11 @@
 package com.gdu.cashbook.controller;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 
@@ -16,37 +18,54 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.cashbook.common.CalendarOutPutCommon;
 import com.gdu.cashbook.service.CashService;
+import com.gdu.cashbook.vo.CalendarOutput;
 import com.gdu.cashbook.vo.Cash;
+import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
 
 @Controller
 public class CashController {
 	
 	@Autowired private CashService cashService;
-	
-	@GetMapping("/getCashListByMonth")
-	public String getCashListByMonth(HttpSession session, Model model, @RequestParam(value = "yearMonth", required = false) @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {		
+		
+	@GetMapping("/addCashOne")
+	public String addCashOne(HttpSession session) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
 		
-		//이전, 다음달 넘길수있도록
-		model.addAttribute("yearMonthBefore", yearMonth.minus(Period.ofMonths(1)));
-		model.addAttribute("yearMonth", yearMonth);
-		model.addAttribute("yearMonthAfter", yearMonth.plus(Period.ofMonths(1)));
+		return "addCashOne";
+	}
+	
+	@GetMapping("/getCashListByMonth")
+	public String getCashListByMonth(HttpSession session, Model model, @RequestParam(value = "day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {		
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
 		
-//		System.out.println(yearMonth.lengthOfMonth());
-//		
-//		//매달 1일, 마지막일
-//		String firstDate = yearMonth + "-01";
-//		String lastDate = yearMonth + "-" + yearMonth.lengthOfMonth();
-//		
-//		LocalDate firstLocalDate = LocalDate.parse(firstDate, DateTimeFormatter.ISO_DATE);
-//		LocalDate lastLocalDate = LocalDate.parse(lastDate, DateTimeFormatter.ISO_DATE);
-//		System.out.println(firstLocalDate.getDayOfWeek());	//MONDAY
-//		System.out.println(lastLocalDate.getDayOfWeek());	//TUESDAY
+		if(day == null) {
+			day = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+		}
+		LoginMember loginMember = null;
+		if(session.getAttribute("loginMember") instanceof LoginMember) {
+			loginMember = (LoginMember)session.getAttribute("loginMember");			
+		}
 		
+		model.addAttribute("day", day);		
+		
+		//회원별 월별 각각의 일자 수입,지출 합계금액 가져오기
+		List<DayAndPrice> dayAndPrice = cashService.getDayAndPriceList(day, loginMember.getMemberId());
+		
+		model.addAttribute("dayAndPrice", dayAndPrice);		
+		
+		//매달 1~마지막일을 List 형식으로 생성
+		CalendarOutPutCommon cal = new CalendarOutPutCommon();		
+		model.addAttribute("output", cal.CalendarList(day));
+		
+		CalendarOutput rr = cal.CalendarList(day);
+		System.out.println(rr.getCalendar().get(1).get(2).getDayOfMonth());
 		
 		return "getCashListByMonth";
 	}
@@ -62,13 +81,15 @@ public class CashController {
 			loginMember = (LoginMember)session.getAttribute("loginMember");			
 		}
 		
+		LocalDate localDate = cashService.getDateOne(cashNo);		
+		
 		Cash cash = new Cash();
 		cash.setCashNo(cashNo);
 		cash.setMemberId(loginMember.getMemberId());
 		
 		cashService.removeCashOne(cash);
 		
-		return "redirect:/getCashListByDate";
+		return "redirect:/getCashListByDate?day=" + localDate;
 	}
 	
 	

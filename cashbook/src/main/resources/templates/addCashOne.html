@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>memberInfo</title>
+<title>addCashOne</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -21,43 +21,38 @@
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th colspan="2">회원정보</th>						
+							<th colspan="2">수입/지출 입력</th>						
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>사진</td>
+							<td>카테고리</td>
 							<td>
-								<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;">
+								
 							</td>
 						</tr>
 						<tr>
-							<td>아이디</td>
-							<td th:text="${member.memberId}"></td>
+							<td>수입/지출</td>
+							<td></td>
 						</tr>
 						<tr>
-							<td>이름</td>
-							<td th:text="${member.memberName}"></td>
+							<td>금액</td>
+							<td></td>
 						</tr>
 						<tr>
-							<td>주소</td>
-							<td th:text="${member.memberAddr}"></td>
+							<td>장소</td>
+							<td></td>
 						</tr>
 						<tr>
-							<td>전화번호</td>
-							<td th:text="${member.memberPhone}"></td>
+							<td>메모</td>
+							<td></td>
 						</tr>
-						<tr>
-							<td>이메일</td>
-							<td th:text="${member.memberEmail}"></td>
-						</tr>
+						
 					</tbody>
 				</table>				
 					
 				<div style="margin-top: 20px; text-align: center;">
-					<a th:href="@{/modifyPassword}" class="btn" style="background-color: #819FF7 ; width: 200px;">비밀번호 수정</a>
-					<a th:href="@{/modifyMember}" class="btn" style="background-color: #9999CC; width: 200px;">회원정보 수정</a>
-					<a th:href="@{/removeMember}" class="btn" style="background-color: #F5A9BC; width: 200px;">회원 탈퇴</a>					
+					<a th:href="@{/}" class="btn" style="background-color: #819FF7 ; width: 200px;">입력</a>				
 				</div>
 			</div>
 
