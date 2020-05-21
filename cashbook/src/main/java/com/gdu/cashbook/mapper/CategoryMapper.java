@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CategoryMapper {
 	
-	//카테고리 리스트 가져오기
-	public List<String> selectCategoryList();
+	// 카테고리 리스트 가져오기
+	public List<String> selectCategoryList(String categoryDesc);
 }

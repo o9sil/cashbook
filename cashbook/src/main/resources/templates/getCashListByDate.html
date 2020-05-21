@@ -93,7 +93,9 @@
 							<td>
 								<a th:href="@{/removeCashOne(cashNo=${list.cashNo})}">삭제</a>
 							</td>
-							<td>수정</td>
+							<td>
+								<a th:href="@{/modifyCashOne(cashNo=${list.cashNo})}">수정</a>
+							</td>
 						</tr>						
 					</tbody>
 				</table>	
@@ -101,7 +103,7 @@
 			
 			
 			<div style="margin: 20px">
-				<a th:href="@{/addCashOne}" class="btn btn-info" style="width: 100px">입력</a>
+				<a th:href="@{/addCashOne(day=${day})}" class="btn btn-info" style="width: 100px">입력</a>
 			</div>
 			<div style="text-align: right; margin-right: 40px;">				
 				<h3>

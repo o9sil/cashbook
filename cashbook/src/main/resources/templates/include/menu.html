@@ -15,13 +15,17 @@
 		<div></div>
 		
 		<div class="sidenav">
-			<span th:text="${session.loginMember.memberId} + ' 님'"></span>
-			<a th:href="@{/home}">Home</a>
-      		<a th:href="@{/memberInfo}">회원정보</a>
-			<a th:href="@{/getCashListByDate}">일별 가계부</a>
-			<a th:href="@{/getCashListByMonth}">월별 가계부</a>
-			<a th:href="@{/boardList}">게시판</a>
-			<a th:href="@{/logout}">로그아웃</a>
+			<img th:src="@{'/styles/upload/' + ${session.loginMember.memberPic}}" class="rounded-circle" alt="Cinque Terre">
+						
+			<span th:text="${session.loginMember.memberId} + ' 님'" style="padding-left: 8px"></span>
+						
+			<a th:href="@{/home}" style="padding-left: 8px; font-size: 22px;">Home</a>			
+      		<a th:href="@{/memberInfo}" style="padding-left: 8px">회원정보</a>
+			<a th:href="@{/getCashListByDate}" style="padding-left: 8px">일별 가계부</a>
+			<a th:href="@{/getCashListByMonth}" style="padding-left: 8px">월별 가계부</a>
+			<a th:href="@{/boardList}" style="padding-left: 8px">게시판</a>
+			<a th:href="@{/logout}" style="padding-left: 8px">로그아웃</a>
+			
 		</div>
 
 		

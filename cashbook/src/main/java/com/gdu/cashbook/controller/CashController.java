@@ -3,8 +3,6 @@ package com.gdu.cashbook.controller;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +31,52 @@ public class CashController {
 	@Autowired private CashService cashService;
 	@Autowired private CategoryService categoryService;
 	
+	@PostMapping("/modifyCashOne")
+	public String modifyCashOne(HttpSession session, Cash cash, @RequestParam(value = "cashDatePicker", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate day) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		LoginMember loginMember = null;
+		if(session.getAttribute("loginMember") instanceof LoginMember) {
+			loginMember = (LoginMember)session.getAttribute("loginMember");			
+		}
+		
+		cash.setMemberId(loginMember.getMemberId());
+		cash.setCashDate(day);
+		//System.out.println(cash);
+		
+		cashService.modifyCashOne(cash);
+		
+		return "redirect:/getCashListByDate?day=" + cash.getCashDate();
+	}
+	
+	@GetMapping("/modifyCashOne")
+	public String modifyCashOne(HttpSession session, Model model, @RequestParam(value = "cashNo") int cashNo) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		
+		Cash cash = cashService.getCashOne(cashNo);
+		//System.out.println(cash);
+		
+		model.addAttribute("cash", cash);
+		
+		int cashKind = 0;
+		//1=수입, 0=지출
+		if(cash.getCashKind().equals("수입")) {
+			cashKind = 1;
+		}else {
+			cashKind = 0;
+		}
+		
+		List<String> categoryList = categoryService.getCategoryList(cashKind);		
+		model.addAttribute("category", categoryList);
+		
+		return "modifyCashOne";
+	}
+	
 	@PostMapping("/addCashOne")
 	public String addCashOne(HttpSession session, Cash cash, @RequestParam(value = "cashDatePicker", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {
@@ -47,19 +91,25 @@ public class CashController {
 		cash.setMemberId(loginMember.getMemberId());
 		cash.setCashDate(day);
 		
+		//System.out.println("addCashOne = " + cash);
+		
 		cashService.addCashOne(cash);		
 		
 		return "redirect:/getCashListByDate?day=" + day;
 	}
 		
 	@GetMapping("/addCashOne")
-	public String addCashOne(HttpSession session, Model model) {
+	public String addCashOne(HttpSession session, Model model, @RequestParam(value = "day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
 		
-		List<String> categoryList = categoryService.getCategoryList();		
-		model.addAttribute("category", categoryList);
+		if(day == null) {
+			day = LocalDate.now();
+		}
+		
+		model.addAttribute("day", day);
+			
 		
 		return "addCashOne";
 	}
@@ -88,9 +138,7 @@ public class CashController {
 		//매달 1~마지막일을 List 형식으로 생성
 		CalendarOutPutCommon cal = new CalendarOutPutCommon();		
 		model.addAttribute("output", cal.CalendarList(day));
-		
-		CalendarOutput rr = cal.CalendarList(day);
-		System.out.println(rr.getCalendar().get(1).get(2).getDayOfMonth());
+						
 		
 		return "getCashListByMonth";
 	}

@@ -5,8 +5,8 @@
 <mapper namespace="com.gdu.cashbook.mapper.CategoryMapper">
 
 	<!-- 카테고리 리스트 가져오기 -->
-	<select id="selectCategoryList" resultType="String">
-		SELECT category_name FROM category
+	<select id="selectCategoryList" resultType="String" parameterType="String">
+		SELECT category_name FROM category WHERE category_desc = #{categoryDesc}
 	</select>
 
 </mapper>

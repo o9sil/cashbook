@@ -43,6 +43,13 @@
 
 
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.tdClass').click(function(){
+		location.href = 'getCashListByDate?day=' + this.id;		
+	});
+});
+</script>
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -98,8 +105,8 @@
 							
 							
 							<th:block th:each="day, num2:${week}">									
-								<td th:if="${day != null}">
-									<a th:href="@{/getCashListByDate(day=${day})}" th:text="${day.getDayOfMonth()}" style="color: black;"></a>									
+								<td th:if="${day != null}" style="cursor: hand;" class="tdClass" th:id="${day}">
+									<label th:text="${day.getDayOfMonth()}"></label>																		
 									
 									<th:block th:each="dday, num:${dayAndPrice}">
 										<th:block th:if="${dday.getDay() == day.getDayOfMonth()}">

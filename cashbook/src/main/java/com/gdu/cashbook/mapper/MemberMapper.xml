@@ -74,7 +74,8 @@
 	<!-- 로그인 시도 -->
 	<select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
 		SELECT 
-			member_id AS memberId
+			member_id AS memberId,
+			member_pic AS memberPic
 		FROM member
 		WHERE member_id = #{memberId} 
 		AND member_pw = PASSWORD(#{memberPw})

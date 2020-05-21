@@ -17,7 +17,27 @@ public class CashService {
 	
 	@Autowired private CashMapper cashMapper;
 	
+	//특정 가계부 수정하기
+	public int modifyCashOne(Cash cash) {
+		if(cash.getCashKind().equals("1")) {
+			cash.setCashKind("수입");
+		}else {
+			cash.setCashKind("지출");
+		}
+		return cashMapper.updateCashOne(cash);
+	}
+	
+	//특정 가계부 가져오기
+	public Cash getCashOne(int cashNo) {
+		return cashMapper.selectCashOne(cashNo);
+	}
+	
 	public int addCashOne(Cash cash) {
+		if(cash.getCashKind().equals("1")) {
+			cash.setCashKind("수입");
+		}else {
+			cash.setCashKind("지출");
+		}
 		return cashMapper.insertCashOne(cash);
 	}
 	
@@ -27,8 +47,8 @@ public class CashService {
 	
 	public List<DayAndPrice> getDayAndPriceList(LocalDate localDate, String memberId){
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		System.out.println("Service = " + localDate.getYear());
-		System.out.println("Service = " + localDate.getMonthValue());
+		//System.out.println("Service = " + localDate.getYear());
+		//System.out.println("Service = " + localDate.getMonthValue());
 		map.put("memberId", memberId);
 		map.put("year", localDate.getYear());
 		map.put("month", localDate.getMonthValue());

@@ -12,7 +12,14 @@ public class CategoryService {
 	
 	@Autowired private CategoryMapper categoryMapper;
 	
-	public List<String> getCategoryList() {
-		return categoryMapper.selectCategoryList();
+	public List<String> getCategoryList(int categoryDesc) {
+		//1 = 수입, 0 = 지출
+		String cat = "";
+		if(categoryDesc == 1) {
+			cat = "수입";
+		}else if(categoryDesc == 0){ 
+			cat = "지출";
+		}
+		return categoryMapper.selectCategoryList(cat);
 	}
 }
