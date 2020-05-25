@@ -30,6 +30,11 @@ public class MemberService {
 	@Value("D:/git-cashbook/cashbook/src/main/resources/static/styles/upload/")
 	private String path;
 	
+	//사진 가져오기
+	public String getMemberPic(String memberId) {
+		return memberMapper.selectMemberPic(memberId);
+	}
+	
 	//ID 찾기
 	public String[] getMemberIdByMember(Member member) {
 		return memberMapper.selectMemberIdByMember(member);

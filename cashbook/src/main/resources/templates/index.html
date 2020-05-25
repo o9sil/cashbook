@@ -35,7 +35,8 @@
 	<div class="cash">
 		<h1>Cash Book</h1>
 		<div th:if="${session.loginMember != null}">
-			<div class="memberBtn"><a th:href="@{/logout}" class="btn btn-primary" th:text="${session.loginMember.memberId} + '님 로그아웃'"></a></div>
+			<div class="memberBtn"><a th:href="@{/home}" class="btn btn-primary">메인 페이지</a></div>
+			<div class="memberBtn"><a th:href="@{/logout}" class="btn btn-primary" th:text="${session.loginMember.memberId} + '님 로그아웃'"></a></div>			
 		</div>
 		<div th:if="${session.loginMember == null}">
 			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">로그인</a></div>

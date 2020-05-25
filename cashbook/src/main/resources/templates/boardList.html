@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>boardList</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+
+
+</style>
+<script>
+$(document).ready(function(){
+	var level = function(){
+		alert("하하");
+	};
+});
+</script>
+</head>
+<body>
+
+
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<h3 style="padding-top: 30px">
+				2020년 가계부
+			</h3>
+			
+			<div id="header">		
+					
+				<div id="box-center">
+					<h4>						
+						<th:block th:text="게시판"></th:block>
+					</h4>					
+				</div>
+				
+			</div>
+		
+			<div style="padding-top: 30px">
+				<table class="table table-bordered" style="text-align: center;">
+					<thead class="thead-light">
+						<tr>
+							<th style="width: 10%">글번호</th>
+							<th style="width: 50%">글제목</th>							
+							<th style="width: 15%">작성자</th>
+							<th style="width: 15%">작성일자</th>
+							<th style="width: 10%">공개여부</th>													
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="board, num:${boardList}">
+							<tr>
+								<td th:text="${board.getBoardNo()}"></td>
+								<td>
+									<a th:href="@{/boardInfo(boardNo=${board.getBoardNo()},currentPage=${param.currentPage})}" th:text="${board.getBoardTitle()}"></a>
+								</td>			
+												
+								
+								<td th:text="${board.getMemberId()}"></td>
+								<td th:text="${board.getBoardDate()}"></td>
+								
+								<td th:if="${board.getBoardLevel() == 0}" th:text="전체공개">								
+								</td>
+								<td th:if="${board.getBoardLevel() == 1}" th:text="비공개">								
+								</td>
+							</tr>
+						</th:block>			
+					</tbody>
+				</table>	
+			</div>
+			
+			<div style="margin-top: 30px">			
+				<ul class="pagination justify-content-center">									
+					<th:block th:each="paging, num:${pagingList}">						
+						<th:block th:if="${paging.getPageSelect() == true}">
+							<li class="page-item active"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()})}" th:text="${paging.getPageNum()}"></a>	
+						</th:block>
+						<th:block th:if="${paging.getPageSelect() == false}">
+							<li class="page-item"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()})}" th:text="${paging.getPageNum()}"></a>	
+						</th:block>						
+					</th:block>
+				</ul>
+			</div>
+			
+			
+			<div style="margin-top: 20px;">
+				<div style="display: inline-block; float: left;">
+					<a th:href="@{/addBoardOne}" class="btn" style="background-color: #819FF7 ; width: 200px;">게시글 작성</a>
+				</div>
+				<div class="input-group mb-3" style="width:80%; float:left; margin-left: 20px;">						
+					<input type="text" class="form-control" placeholder="글 제목 검색">
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-primary" type="button">검색</button>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

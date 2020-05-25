@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
+
+	<!-- 게시글 작성자명 가져오기 -->
+	<select id="selectBoardMemberId" parameterType="int" resultType="String">
+		SELECT member_id FROM board WHERE board_no = #{boardNo}
+	</select>
+	<!-- 게시글 수정 -->
+	<update id="updateBoardOne" parameterType="com.gdu.cashbook.vo.Board">
+		UPDATE board 
+		SET
+			board_title = #{boardTitle}, 
+			board_content = #{boardContent}		
+		WHERE board_no = #{boardNo}
+		AND member_id = #{memberId}
+	</update>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertBoardOne" parameterType="com.gdu.cashbook.vo.Board">
+		INSERT INTO board
+		(
+			member_id, 
+			board_title, 
+			board_content, 
+			board_level, 
+			board_date
+		)
+		VALUES
+		(
+			#{memberId}, 
+			#{boardTitle}, 
+			#{boardContent}, 
+			#{boardLevel}, 
+			NOW()
+		)
+	</insert>
+
+	<!-- 게시글 접근 레벨 확인하기 1=자기만 0=모두 -->
+	<select id="selectBoardLevel" resultType="int" parameterType="int">
+		SELECT board_level FROM board where board_no = #{boardNo}
+	</select>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="selectBoardOne" resultType="com.gdu.cashbook.vo.Board" parameterType="hashmap">
+		SELECT 
+			board_no AS boardNo,
+			member_id AS memberId,
+			board_title AS boardTitle,
+			board_content AS boardContent,
+			board_date AS boardDate
+		FROM board
+		WHERE board_no = #{boardNo}
+		<if test="memberId != null">
+			AND member_id = #{memberId}
+		</if>
+		
+	</select>
+
+	<!-- 게시글 리스트 가져오기 -->
+	<select id="selectBoardList" resultType="com.gdu.cashbook.vo.Board" parameterType="hashmap">
+		SELECT 
+			board_no AS boardNo, 
+			member_id AS memberId, 
+			board_title AS boardTitle,
+			board_date AS boardDate,
+			board_level AS boardLevel
+		FROM board ORDER BY board_no desc
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 게시글 전체 개수 가져오기 -->
+	<select id="selectBoardCount" resultType="int">
+		SELECT 
+			count(*) 
+		FROM board
+	</select>
+
+</mapper>

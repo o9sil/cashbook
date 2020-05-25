@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>boardInfo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<div style="padding-top: 60px">				
+				<table class="table">	
+					<thead class="thead-dark">
+						<tr>
+							<th colspan="2">게시글 보기</th>						
+						</tr>
+					</thead>				
+					<tbody>
+						<tr>
+							<td width="20%">글 제목</td>
+							<td th:text="${board.boardTitle}"></td>
+						</tr>
+						<tr>
+							<td>작성자 이름</td>
+							<td th:text="${board.memberId}"></td>
+						</tr>
+						<tr>
+							<td>작성날짜</td>
+							<td th:text="${board.boardDate}"></td>
+						</tr>
+						<tr>
+							<td>글 내용</td>
+							<td>
+								<textarea class="form-control" rows="20" th:text="${board.boardContent}" readonly="readonly" style="background: none;"></textarea>
+							</td>							
+						</tr>						
+					</tbody>
+				</table>				
+					
+				
+			</div>
+			<div style="margin-top: 20px;">
+					<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
+					<a th:href="@{/}" class="btn" style="background-color: #F5A9BC; width: 200px; float: right;">삭제</a>	
+					<a th:href="@{/modifyBoardOne(boardNo=${board.boardNo})}" class="btn" style="background-color: #9999CC; width: 200px; float: right; margin-right: 20px;">수정</a>									
+			</div>
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

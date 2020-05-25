@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>modifyBoardOne</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+
+<script>
+let helperInit = function() {
+	$("#titleHelper").text("");	
+};
+
+$(document).ready(function(){
+	$("#btn").click(function(){
+		
+		helperInit();
+		
+		if($("#boardTitle").val().length === 0){
+			$("#titleHelper").text("제목을 입력하세요.");
+			$("#boardTitle").focus();			
+		}else if($("#boardContent").val().length === 0){
+			$("#contentHelper").text("내용을 입력하세요.");
+			$("#boardContent").focus();			
+		}else{
+			$("#myForm").submit();			
+		}
+		
+	});
+});
+</script>
+
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			<form method="post" th:action="@{/modifyBoardOne}" id="myForm">
+				<div style="padding-top: 60px">
+				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+					
+					<table class="table">	
+						<thead class="thead-dark">
+							<tr>
+								<th colspan="2">게시글 수정</th>						
+							</tr>
+						</thead>				
+						<tbody>
+							<tr>
+								<td width="20%">글 제목</td>
+								<td>
+									<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${board.boardTitle}">
+									<span id="titleHelper"></span>
+								</td>							
+							</tr>
+							<tr>
+								<td>작성자 이름</td>
+								<td>
+									<input type="text" class="form-control" id="memberId" name="memberId" th:value="${board.memberId}" readonly="readonly" style="background: none;">
+								 </td>
+							</tr>
+							<tr>
+								<td>작성날짜</td>
+								<td>
+									<input type="text" class="form-control" id="boardDate" name="boardDate" th:value="${board.boardDate}" readonly="readonly" style="background: none;">
+								 </td>
+							</tr>
+							<tr>
+								<td>글 내용</td>
+								<td>
+									<textarea class="form-control" rows="20" id="boardContent" name="boardContent" th:text="${board.boardContent}" style="background: none;"></textarea>
+									<span id="contentHelper"></span>
+								</td>							
+							</tr>						
+						</tbody>
+					</table>				
+					
+					
+				</div>
+				<div style="margin-top: 20px;">
+						<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
+						<a th:href="@{/}" class="btn" style="background-color: #F5A9BC; width: 200px; float: right;">삭제</a>	
+						<button class="btn" id="btn" type="button" style="width: 200px; background-color: #9999CC; float: right; margin-right: 20px;">저장</button>
+													
+				</div>
+			</form>	
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

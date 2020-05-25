@@ -91,7 +91,7 @@ public class CashController {
 		cash.setMemberId(loginMember.getMemberId());
 		cash.setCashDate(day);
 		
-		//System.out.println("addCashOne = " + cash);
+		System.out.println("addCashOne = " + cash);
 		
 		cashService.addCashOne(cash);		
 		
@@ -138,7 +138,8 @@ public class CashController {
 		//매달 1~마지막일을 List 형식으로 생성
 		CalendarOutPutCommon cal = new CalendarOutPutCommon();		
 		model.addAttribute("output", cal.CalendarList(day));
-						
+		
+		CalendarOutput rr = cal.CalendarList(day);		
 		
 		return "getCashListByMonth";
 	}

@@ -140,6 +140,12 @@ public class MemberController {
 		
 		memberService.modifyMemberOne(memberForm);
 				
+		LoginMember loginMember = (LoginMember) session.getAttribute("loginMember");
+		loginMember.setMemberPic(memberService.getMemberPic(loginMember.getMemberId()));
+		
+		session.setAttribute("loginMember", loginMember);		
+		
+				
 		return "redirect:/memberInfo";
 	}
 	
