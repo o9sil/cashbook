@@ -22,12 +22,48 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;	
 	
+	//답글 달기 액션
+	@PostMapping("/addBoardReply")
+	public String addBoardReply(HttpSession session, Board board) {
+		//로그인 중일때만 접근가능
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		LoginMember loginMember = null;
+		if(session.getAttribute("loginMember") instanceof LoginMember) {
+			loginMember = (LoginMember)session.getAttribute("loginMember");			
+		}
+				
+		board.setMemberId(loginMember.getMemberId());
+		
+		//System.out.println("addBoardReply Post = " + board);
+		
+		boardService.addBoardReply(board);
+		
+		return "redirect:/boardList";
+	}
+	
+	//답글 달기
+	@GetMapping("/addBoardReply")
+	public String addBoardReply(HttpSession session, @RequestParam(value = "boardNo") int boardNo) {
+		//로그인 중일때만 접근가능
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		
+				
+		return "addBoardReply";
+	}
+	
+	
 	//게시글 수정 액션
 	@PostMapping("/modifyBoardOne")
 	public String modifyBoardOne(HttpSession session, Board board) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		
 		LoginMember loginMember = null;
@@ -50,7 +86,7 @@ public class BoardController {
 	public String modifyBoardOne(HttpSession session, Model model, @RequestParam(value = "boardNo") int boardNo) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 			
 		
@@ -79,15 +115,17 @@ public class BoardController {
 	public String addBoardOne(HttpSession session, Board board) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		LoginMember loginMember = null;
 		if(session.getAttribute("loginMember") instanceof LoginMember) {
 			loginMember = (LoginMember)session.getAttribute("loginMember");			
 		}
 		board.setMemberId(loginMember.getMemberId());
-		System.out.println(board);
+		//System.out.println(board);
 		boardService.addBoardOne(board);
+		
+		//System.out.println("addBoardOne = " + board);
 				
 		return "redirect:/boardList";
 	}
@@ -98,7 +136,7 @@ public class BoardController {
 	public String addBoardOne(HttpSession session) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		
 		return "addBoardOne";
@@ -109,7 +147,7 @@ public class BoardController {
 	public String boardInfo(HttpSession session, Model model, @RequestParam(value = "boardNo") int boardNo, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		
 		LoginMember loginMember = null;
@@ -121,10 +159,10 @@ public class BoardController {
 		board.setBoardNo(boardNo);
 		board.setMemberId(loginMember.getMemberId());
 		
-		//조회불가능
+		//조회불가능   
 		Board resultBoard = boardService.getBoardOne(board);
 		if(resultBoard != null) {
-			model.addAttribute("board", boardService.getBoardOne(board));
+			model.addAttribute("board", resultBoard);
 		}else {
 			//조회 불가능시
 			return "redirect:/boardList?currentPage="+currentPage;
@@ -135,13 +173,16 @@ public class BoardController {
 	
 	//게시글 리스트
 	@GetMapping("/boardList")
-	public String boardList(HttpSession session, Model model, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+	public String boardList(HttpSession session, Model model, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, 
+			@RequestParam(value = "search", defaultValue = "") String search) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}		
 		
-		System.out.println("currentPage = " + currentPage);
+		//String search = "";
+		
+		//System.out.println("currentPage = " + currentPage);
 		
 		int cPage = 1;
 		if(currentPage != 0) {
@@ -150,7 +191,7 @@ public class BoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map = boardService.getBoardList(cPage);	//currentPage 넣기
+		map = boardService.getBoardList(cPage, search);	//currentPage 넣기
 				
 		model.addAttribute("boardList", map.get("boardList"));
 		model.addAttribute("pagingList", map.get("pagingList"));

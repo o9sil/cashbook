@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>adminLogin</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+
+let helperInit = function() {
+	$("#idHelper").text("");
+	$("#pwHelper").text("");	
+};
+
+$(document).ready(function(){
+	$("#btn").click(function(){
+		helperInit();
+		
+		if($("#adminId").val().length == 0){
+			$("#idHelper").text("ID를 입력하세요.");
+			$("#adminId").focus();	
+		}else if($("#adminPw").val().length == 0){
+			$("#pwHelper").text("PW를 입력하세요.");
+			$("#adminPw").focus();	
+		}else{
+			$("#loginForm").submit();	
+		}
+	});
+});
+</script>
+
+<style>
+	.login h1{
+		text-align: center;
+		margin: 100px;
+	}
+	.login .loginInput {
+		width: 400px;
+		margin: 20px;	
+		margin-left: auto;
+		margin-right: auto;	
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+<div class="container-fluid p-0">
+		
+	<div class="login">
+		<h1>AdminLogin</h1>		
+		<form id="loginForm" method="post" th:action="@{/adminLogin}">
+			<div class="loginInput">
+				<input type="text" id="adminId" name="adminId" class="form-control" placeholder="아이디를 입력하세요.">	
+				<span id="idHelper"></span>	
+			</div>
+			<div class="loginInput">
+				<input type="password" id="adminPw" name="adminPw" class="form-control" placeholder="비밀번호를 입력하세요.">
+				<span id="pwHelper"></span>
+			</div>	
+			<div class="loginInput">		
+				<button type="button" id="btn" class="btn btn-primary btn-block">로그인</button>
+			</div>			
+		</form>
+	</div>	
+	
+</div>	
+</body>
+</html>

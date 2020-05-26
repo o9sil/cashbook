@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.AdminMapper">
+
+	<select id="selectMemberList" resultType="com.gdu.cashbook.vo.Member">
+		SELECT 
+			member_id AS memberId,
+			member_name AS memberName,
+			member_addr AS memberAddr,
+			member_phone AS memberPhone,
+			member_email AS memberEmail			
+		FROM member WHERE member_id NOT IN (SELECT admin_id FROM admin)
+	</select>
+
+	<select id="selectLoginAdmin" parameterType="com.gdu.cashbook.vo.Admin" resultType="String">
+		SELECT admin_id 
+		FROM admin 
+		WHERE 
+			admin_id = 
+		(
+			SELECT member_id 
+			FROM member 
+			WHERE member_id = #{adminId} 
+			AND member_pw = PASSWORD(#{adminPw})
+		)		
+	</select>
+
+</mapper>

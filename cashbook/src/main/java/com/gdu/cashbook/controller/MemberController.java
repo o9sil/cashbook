@@ -120,7 +120,7 @@ public class MemberController {
 	public String removeMember(HttpSession session, Model model) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		if(session.getAttribute("loginMember") instanceof LoginMember) {
 			Member member = memberService.getMemberOne((LoginMember)session.getAttribute("loginMember"));
@@ -135,7 +135,7 @@ public class MemberController {
 	public String modifyMember(HttpSession session, MemberForm memberForm) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		
 		memberService.modifyMemberOne(memberForm);
@@ -154,7 +154,7 @@ public class MemberController {
 	public String modifyMember(HttpSession session, Model model) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}		
 
 		//session 내부의 loginMember type 확인절차 필요
@@ -171,7 +171,7 @@ public class MemberController {
 	public String memberInfo(HttpSession session, Model model) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}		
 
 		//session 내부의 loginMember type 확인절차 필요
@@ -217,11 +217,12 @@ public class MemberController {
 	
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
-		//로그인 한 상황이 아닐때
-		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/";
-		}
-		session.removeAttribute("loginMember");
+		//로그인 한 상황이 아닐때		
+		session.invalidate();
+//		if(session.getAttribute("loginMember") == null) {
+//			return "redirect:/";
+//		}
+//		session.removeAttribute("loginMember");
 		return "redirect:/";
 	}
 	

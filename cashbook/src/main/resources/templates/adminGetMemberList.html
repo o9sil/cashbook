@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>adminGetMemberList</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+
+
+</style>
+<script>
+$(document).ready(function(){
+	$('#searchBtn').click(function(){
+		location.href = 'adminBoardList?search=' + $('#searchText').val();
+	});
+});
+</script>
+</head>
+<body>
+
+
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/adminMenu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">
+			
+			
+			<div id="header">		
+					
+				<div id="box-center">
+					<h4>						
+						<th:block th:text="회원목록"></th:block>
+					</h4>					
+				</div>
+				
+			</div>
+		
+			<div style="padding-top: 30px; padding-left: 30px; padding-right: 30px;">
+				<table class="table table-bordered">
+					<thead class="thead-light">
+						<tr>
+							<th style="width: 20%">아이디</th>
+							<th style="width: 20%">사용자이름</th>							
+							<th style="width: 20%">주소</th>
+							<th style="width: 20%">전화번호</th>
+							<th style="width: 20%">이메일</th>												
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="member, num:${list}">
+							<tr>
+								<td th:text="${member.getMemberId()}"></td>
+								<td th:text="${member.getMemberName()}"></td>	
+								<td th:text="${member.getMemberAddr()}"></td>	
+								<td th:text="${member.getMemberPhone()}"></td>	
+								<td th:text="${member.getMemberEmail()}"></td>								
+							</tr>							
+						</th:block>
+					</tbody>
+				</table>	
+			</div>
+			
+			
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

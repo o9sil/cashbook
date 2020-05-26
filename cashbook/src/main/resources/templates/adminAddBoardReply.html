@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>modifyBoardOne</title>
+<title>adminAddBoardReply</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -38,61 +38,53 @@ $(document).ready(function(){
 <div class="container-fluid p-0">
 	<div class="row">
 		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
+			<div th:include="/include/adminMenu::sidemenu"></div>
 		</div>
 		<div class="col-sm-11">
-			<form method="post" th:action="@{/modifyBoardOne}" id="myForm">
+			<form th:action="@{/adminAddBoardReply}" method="post" id="myForm">	
+				<input type="hidden" name="boardParent" th:value="${param.boardNo}">
+			
 				<div style="padding-top: 60px">
-				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-					
 					<table class="table">	
 						<thead class="thead-dark">
 							<tr>
-								<th colspan="2">게시글 수정</th>						
+								<th colspan="2">게시글 입력</th>						
 							</tr>
 						</thead>				
 						<tbody>
 							<tr>
 								<td width="20%">글 제목</td>
 								<td>
-									<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${board.boardTitle}">
+									<input type="text" class="form-control" id="boardTitle" name="boardTitle">
 									<span id="titleHelper"></span>
-								</td>							
+								</td>
 							</tr>
 							<tr>
 								<td>공개 여부</td>
 								<td>
-									<select name="boardLevel" class="custom-select" id="boardLevel">		
-										<th:block th:if="${board.boardLevel} == 0">
-											<option th:value="0" selected="selected">전체공개</option>
-											<option th:value="1">비공개</option>
-										</th:block>
-										<th:block th:if="${board.boardLevel} == 1">
+									<select name="boardLevel" class="custom-select" id="boardLevel">										
 											<option th:value="0">전체공개</option>
-											<option th:value="1" selected="selected">비공개</option>
-										</th:block>																	
+											<option th:value="1">비공개</option>
 									</select>									
-								 </td>
+								</td>
 							</tr>
 							<tr>
 								<td>글 내용</td>
 								<td>
-									<textarea class="form-control" rows="20" id="boardContent" name="boardContent" th:text="${board.boardContent}" style="background: none;"></textarea>
+									<textarea class="form-control" rows="20" id="boardContent" name="boardContent"></textarea>
 									<span id="contentHelper"></span>
 								</td>							
 							</tr>						
 						</tbody>
 					</table>				
-					
+						
 					
 				</div>
-				<div style="margin-top: 20px;">
-						<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>						
-						<button class="btn" id="btn" type="button" style="width: 200px; background-color: #9999CC; float: right; margin-right: 20px;">저장</button>
-													
+				<div style="margin-top: 20px;">						
+					<button class="btn" id="btn" type="button" style="width: 200px; background-color: #819FF7;">저장</button>								
 				</div>
-			</form>	
 
+			</form>
 		</div>
 	</div>
 

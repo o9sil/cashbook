@@ -10,6 +10,18 @@ import com.gdu.cashbook.vo.Board;
 @Mapper
 public interface BoardMapper {
 
+	//관리자글 접근권한 확인
+	public String selectMemberIdBoard(Board board);
+	
+	//게시글 답글달기
+	public int insertBoardReply(Board board);
+	
+	//게시글 boardParent boardNo와 동일하게 변경
+	public int updateBoardParent(Board board);
+	
+	//게시글 삭제
+	public int deleteBoardOne(Board board);
+	
 	//게시글 작성자 가져오기
 	public String selectBoardMemberId(int boardNo);
 	
@@ -26,8 +38,8 @@ public interface BoardMapper {
 	public Board selectBoardOne(Map<String, Object> map);
 	
 	//게시글 리스트 가져오기(페이징 필요)
-	public List<Board> selectBoardList(Map<String, Integer> map);
+	public List<Board> selectBoardList(Map<String, Object> map);
 	
 	//게시글 전체 개수 가져오기
-	public int selectBoardCount();
+	public int selectBoardCount(String search);
 }

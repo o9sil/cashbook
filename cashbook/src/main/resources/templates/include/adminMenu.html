@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<!-- fragment1 -->
+	<div th:fragment="sidemenu">	<!-- /include/menu::sidemenu -->		
+		
+		<div class="sidenav">			
+			<a th:href="@{/adminHome}" style="padding-left: 8px; font-size: 22px;">Home</a>			
+      		<a th:href="@{/adminGetMemberList}" style="padding-left: 8px">회원정보</a>			
+			<a th:href="@{/adminBoardList}" style="padding-left: 8px">게시판</a>
+			<a th:href="@{/logout}" style="padding-left: 8px">로그아웃</a>			
+		</div>
+
+		
+	</div>
+	
+</body>
+</html>

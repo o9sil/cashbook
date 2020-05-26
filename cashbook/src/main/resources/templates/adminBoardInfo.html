@@ -9,43 +9,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link th:href="@{/styles/css/menu.css}" rel="stylesheet">
 
-<script type="text/javascript" th:inline="javascript">
-$(document).ready(function(){
-	
-	$('#deleteBtn').click(function(){
-		let boardNo;
-		let memberId;
-		  let r = confirm("정말 삭제하시겠습니까?");
-		  if (r == true) {			
-		    
-		    $.ajax({
-		    	url:'/removeBoard',
-		    	type:'GET',
-		    	/* <![CDATA[ */
-		    	data:{boardNo:/*[[${board.boardNo}]]*/, memberId:/*[[${session.loginMember.memberId}]]*/},
-		    	/* ]]> */
-		    	success:function(data){
-		    		console.log(data);
-		    		//삭제 성공시
-		    		if(data == 1){
-		    			location.href = 'boardList';	
-		    		}		    		
-		    	}
-		    });
-		    
-		  } 
-	});
-	
-	
-});
-</script>
+
 
 </head>
 <body>
 <div class="container-fluid p-0">
 	<div class="row">
 		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
+			<div th:include="/include/adminMenu::sidemenu"></div>
 		</div>
 		<div class="col-sm-11">
 			<div style="padding-top: 60px">				
@@ -80,17 +51,12 @@ $(document).ready(function(){
 				
 			</div>
 			<div style="margin-top: 20px;">					
-					<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
-					<th:block th:if="${board.boardReNo == 0}">
-						<th:block th:if="${board.memberId == session.loginMember.memberId}">
-							<a th:href="@{/addBoardReply(boardNo=${board.boardNo})}" class="btn" style="background-color: #F08080; width: 200px; margin-left: 20px;">답글달기</a>
-						</th:block>					
+					<a th:href="@{/adminBoardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
+					<th:block th:if="${board.boardReNo == 0}">						
+						<a th:href="@{/adminAddBoardReply(boardNo=${board.boardNo})}" class="btn" style="background-color: #F08080; width: 200px; margin-left: 20px;">답글달기</a>										
 					</th:block>
 					
-					<th:block th:if="${board.memberId == session.loginMember.memberId}">
-						<button type="button" class="btn" id="deleteBtn" style="background-color: #F5A9BC; width: 200px; float: right;">삭제</button>
-						<a th:href="@{/modifyBoardOne(boardNo=${board.boardNo})}" class="btn" style="background-color: #9999CC; width: 200px; float: right; margin-right: 20px;">수정</a>
-					</th:block>
+					
 														
 			</div>
 

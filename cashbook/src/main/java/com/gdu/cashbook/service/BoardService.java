@@ -18,6 +18,18 @@ public class BoardService {
 	
 	@Autowired private BoardMapper boardMapper;
 	
+	//게시글 답글달기
+	public int addBoardReply(Board board) {
+		return boardMapper.insertBoardReply(board);
+	}
+	
+	
+	//게시글 삭제
+	public int removeBoardOne(Board board) {
+		return boardMapper.deleteBoardOne(board);
+	}
+	
+	
 	//게시글 작성자 가져오기
 	public String getBoardMemberId(int boardNo) {
 		return boardMapper.selectBoardMemberId(boardNo);
@@ -29,8 +41,11 @@ public class BoardService {
 	}
 	
 	//게시글 등록
-	public int addBoardOne(Board board) {
-		return boardMapper.insertBoardOne(board);
+	public int addBoardOne(Board board) {		
+		boardMapper.insertBoardOne(board);
+		//System.out.println("addBoardOne = " + board);
+		
+		return boardMapper.updateBoardParent(board);
 	}
 	
 	//게시글 상세보기
@@ -42,14 +57,25 @@ public class BoardService {
 		//레벨 0일시 모두가 조회 가능 1일시 본인만 조회 가능
 		if(boardMapper.selectBoardLevel(board.getBoardNo()) == 0) {
 			//데이터 가져오기			
-			System.out.println("보드 레벨 0");
+			//System.out.println("보드 레벨 0");
 			map.put("boardNo", board.getBoardNo());
 			
 			resultBoard = boardMapper.selectBoardOne(map);
 		}else {
-			System.out.println("보드 레벨 1");
+			//System.out.println("보드 레벨 1");			
+			String memberId = boardMapper.selectMemberIdBoard(board);
+			//System.out.println(memberId + " memberId");
+			//System.out.println(board.getMemberId() + " board.getMemberId()");
+			if(memberId == null) {
+				map.put("memberId", board.getMemberId());
+			}else if(memberId.equals(board.getMemberId())){
+				map.put("memberId", "admin");				
+			}else {
+				map.put("memberId", board.getMemberId());
+			}
+			
 			map.put("boardNo", board.getBoardNo());
-			map.put("memberId", board.getMemberId());
+			
 			resultBoard = boardMapper.selectBoardOne(map);
 		}
 		
@@ -57,7 +83,7 @@ public class BoardService {
 	}
 	
 	//게시글 가져오기(페이징)
-	public Map<String, Object> getBoardList(int currentPage){
+	public Map<String, Object> getBoardList(int currentPage, String search){
 		
 		Map<String, Object> mapReturn = new HashMap<String, Object>();
 		
@@ -66,9 +92,10 @@ public class BoardService {
 		int rowPerPage = 10;
 		int beginRow = (currentPage - 1) * rowPerPage;
 		
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("beginRow", beginRow);
 		map.put("rowPerPage", rowPerPage);
+		map.put("search", search);
 		
 		//System.out.println("beginRow = " + beginRow);
 		//System.out.println("rowPerPage = " + rowPerPage);
@@ -84,7 +111,7 @@ public class BoardService {
 		//10페이지씩 고정
 		int pagePerGroup = 10;
 		int lastPage = 0;	//마지막 페이지 가져오기
-		int boardCnt = boardMapper.selectBoardCount();
+		int boardCnt = boardMapper.selectBoardCount(search);
 		
 		if(boardCnt % pagePerGroup == 0) {
 			lastPage = boardCnt / pagePerGroup;

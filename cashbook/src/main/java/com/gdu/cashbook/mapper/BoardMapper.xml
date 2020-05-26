@@ -4,6 +4,53 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
 
+	<!-- 관리자글 접근권한 확인 -->
+	<select id="selectMemberIdBoard" parameterType="com.gdu.cashbook.vo.Board" resultType="String">
+		SELECT member_id 
+		from board 
+		where board_no = (SELECT board_parent FROM board WHERE board_no=#{boardNo} AND member_id='admin')
+	</select>
+
+	<!-- 게시글 답글달기 -->
+	<insert id="insertBoardReply" parameterType="com.gdu.cashbook.vo.Board">
+		INSERT INTO board
+		(
+			member_id, 
+			board_title, 
+			board_content, 
+			board_level, 
+			board_date, 
+			board_parent, 
+			board_re_no, 
+			board_re_level
+		)
+		SELECT 
+			#{memberId}, 
+			#{boardTitle}, 
+			#{boardContent}, 
+			#{boardLevel}, 
+			NOW(), 
+			#{boardParent}, 
+			MAX(board_re_no)+1, 
+			1 
+		FROM board 
+		WHERE board_parent = #{boardParent}
+	</insert>
+
+	<!-- 새로 등록한 게시글 board_parent 변경 -->
+	<update id="updateBoardParent" parameterType="com.gdu.cashbook.vo.Board">
+		UPDATE board
+		SET board_parent = #{boardNo}
+		WHERE board_no = #{boardNo}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoardOne" parameterType="com.gdu.cashbook.vo.Board">
+		DELETE FROM board
+		WHERE board_no = #{boardNo}
+		AND member_id = #{memberId}
+	</delete>
+
 	<!-- 게시글 작성자명 가져오기 -->
 	<select id="selectBoardMemberId" parameterType="int" resultType="String">
 		SELECT member_id FROM board WHERE board_no = #{boardNo}
@@ -13,20 +60,23 @@
 		UPDATE board 
 		SET
 			board_title = #{boardTitle}, 
-			board_content = #{boardContent}		
+			board_content = #{boardContent},
+			board_level = #{boardLevel}		
 		WHERE board_no = #{boardNo}
 		AND member_id = #{memberId}
 	</update>
 
 	<!-- 게시글 등록 -->
-	<insert id="insertBoardOne" parameterType="com.gdu.cashbook.vo.Board">
+	<insert id="insertBoardOne" parameterType="com.gdu.cashbook.vo.Board" useGeneratedKeys="true" keyProperty="boardNo">
 		INSERT INTO board
 		(
 			member_id, 
 			board_title, 
 			board_content, 
 			board_level, 
-			board_date
+			board_date,
+			board_re_no,
+			board_re_level
 		)
 		VALUES
 		(
@@ -34,7 +84,9 @@
 			#{boardTitle}, 
 			#{boardContent}, 
 			#{boardLevel}, 
-			NOW()
+			NOW(),
+			0,
+			0
 		)
 	</insert>
 
@@ -50,7 +102,11 @@
 			member_id AS memberId,
 			board_title AS boardTitle,
 			board_content AS boardContent,
-			board_date AS boardDate
+			board_level AS boardLevel,
+			board_date AS boardDate,
+			board_parent AS boardParent,
+			board_re_no AS boardReNo,
+			board_re_level AS boardReLevel
 		FROM board
 		WHERE board_no = #{boardNo}
 		<if test="memberId != null">
@@ -66,16 +122,20 @@
 			member_id AS memberId, 
 			board_title AS boardTitle,
 			board_date AS boardDate,
-			board_level AS boardLevel
-		FROM board ORDER BY board_no desc
+			board_level AS boardLevel,
+			board_re_level AS boardReLevel
+		FROM board
+		WHERE board_title LIKE CONCAT('%', #{search}, '%') 
+		ORDER BY board_parent DESC, board_re_no ASC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
 	<!-- 게시글 전체 개수 가져오기 -->
-	<select id="selectBoardCount" resultType="int">
+	<select id="selectBoardCount" resultType="int" parameterType="String">
 		SELECT 
 			count(*) 
 		FROM board
+		WHERE board_title LIKE CONCAT('%', #{search}, '%')
 	</select>
 
 </mapper>

@@ -39,7 +39,8 @@
 			<div class="memberBtn"><a th:href="@{/logout}" class="btn btn-primary" th:text="${session.loginMember.memberId} + '님 로그아웃'"></a></div>			
 		</div>
 		<div th:if="${session.loginMember == null}">
-			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">로그인</a></div>
+			<div class="memberBtn"><a th:href="@{/adminLogin}" class="btn btn-primary">관리자 로그인</a></div>
+			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">일반회원 로그인</a></div>
 			<div class="memberBtn"><a th:href="@{/addMember}" class="btn btn-primary">회원가입</a></div>
 			
 		</div>

@@ -18,7 +18,7 @@ public class IndexController {
 	@GetMapping("/home")
 	public String home(HttpSession session) {
 		if(session.getAttribute("loginMember") == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		}
 		
 		return "home";
