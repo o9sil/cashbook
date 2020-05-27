@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>cashBookList</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#box-left {  
+	flex: 1;  
+}
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+#box-right {  
+	flex: 1;
+	text-align: right;
+}
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+.p-2{
+	width: 300px;
+	height: 300px;
+	margin: 20px;
+}
+
+
+</style>
+
+<script>
+$(document).ready(function(){
+	
+	$('.p-2').click(function(){
+		//console.log(this.id);
+		location.href = 'getCashListByYear?year=' + this.id;	
+	});
+	
+});
+
+</script>
+
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">			
+			
+			<div id="header">		
+						
+				<div id="box-center">
+					<h1>						
+						가계부
+					</h1>					
+				</div>
+				
+			</div>
+		
+			<div style="padding-top: 30px">
+				<div class="d-flex flex-wrap align-content-stretch" style="text-align: center;">
+					<th:block th:each="year, num:${yearList}">
+						
+						<div class="p-2" th:id="${year}">
+							<img th:src="@{'/styles/upload/' + book.PNG}" style="width: 250px;">
+							<th:block th:text="|${year}년도 가계부 |"></th:block>
+						</div>	
+					</th:block>							
+								
+				</div>
+			</div>
+			
+			
+			
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

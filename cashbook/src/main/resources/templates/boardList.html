@@ -46,16 +46,13 @@ $(document).ready(function(){
 		<div class="col-sm-1">
 			<div th:include="/include/menu::sidemenu"></div>
 		</div>
-		<div class="col-sm-11">
-			<h3 style="padding-top: 30px">
-				2020년 가계부
-			</h3>
+		<div class="col-sm-11">			
 			
 			<div id="header">		
 					
 				<div id="box-center">
 					<h4>						
-						<th:block th:text="게시판"></th:block>
+						<th:block th:text="QnA"></th:block>
 					</h4>					
 				</div>
 				
@@ -78,9 +75,11 @@ $(document).ready(function(){
 								<td th:text="${board.getBoardNo()}"></td>
 								<td>
 									<th:block th:if="${board.getBoardReLevel() != 0}">
-										<th:block th:each="num :${#numbers.sequence(0,board.getBoardReLevel() - 1)}">
-											&nbsp;&nbsp;&nbsp;
-										</th:block>										
+										<th:block th:each="num : ${#numbers.sequence(1, board.getBoardReLevel())}">
+											&nbsp;
+										</th:block>
+											
+										┗								
 									</th:block>
 									
 									

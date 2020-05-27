@@ -1,6 +1,7 @@
 package com.gdu.cashbook.service;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,27 @@ import org.springframework.stereotype.Service;
 import com.gdu.cashbook.mapper.CashMapper;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
+import com.gdu.cashbook.vo.MonthPrice;
 
 @Service
 public class CashService {
 	
 	@Autowired private CashMapper cashMapper;
+	
+	//한 해의 전체 합계 가져오기
+	public int getCashSumYear(Map<String, Object> map) {
+		return cashMapper.selectCashSumYear(map);
+	}
+	
+	//한 해의 가계부 월별 합산 금액 가져오기
+	public List<MonthPrice> getCashMonthPrice(Map<String, Object> map){
+		return cashMapper.selectCashMonthPrice(map);
+	}
+	
+	//가계부 관리 연도별 데이터 가져오기
+	public List<Year> getCashYearList(String memberId){
+		return cashMapper.selectCashYearList(memberId);
+	}
 	
 	//특정 가계부 수정하기
 	public int modifyCashOne(Cash cash) {

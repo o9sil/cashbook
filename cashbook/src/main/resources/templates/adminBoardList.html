@@ -76,9 +76,10 @@ $(document).ready(function(){
 								<td th:text="${board.getBoardNo()}"></td>
 								<td>
 									<th:block th:if="${board.getBoardReLevel() != 0}">
-										<th:block th:each="num :${#numbers.sequence(0,board.getBoardReLevel() - 1)}">
-											&nbsp;&nbsp;&nbsp;
-										</th:block>										
+										<th:block th:each="num : ${#numbers.sequence(1, board.getBoardReLevel())}">
+											&nbsp;
+										</th:block>											
+										┗												
 									</th:block>
 									
 									

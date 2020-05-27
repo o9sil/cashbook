@@ -1,8 +1,11 @@
 package com.gdu.cashbook.controller;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.YearMonth;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +27,74 @@ import com.gdu.cashbook.vo.CalendarOutput;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
+import com.gdu.cashbook.vo.MonthPrice;
 
 @Controller
 public class CashController {
 	
 	@Autowired private CashService cashService;
 	@Autowired private CategoryService categoryService;
+	
+	@GetMapping("/getCashListByYear")
+	public String getCashListByYear(HttpSession session, Model model, @RequestParam(value = "year") int year) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		LoginMember loginMember = null;
+		if(session.getAttribute("loginMember") instanceof LoginMember) {
+			loginMember = (LoginMember)session.getAttribute("loginMember");			
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("year", year);
+		map.put("memberId", loginMember.getMemberId());
+		
+		List<MonthPrice> monthPriceList = cashService.getCashMonthPrice(map);
+		
+		List<MonthPrice> monthPrice = new ArrayList<MonthPrice>();
+		for(int i=0; i<12; i++) {
+			MonthPrice mp = new MonthPrice();
+			mp.setMonth(i+1);
+			mp.setPrice(0);
+			monthPrice.add(mp);
+		}
+		
+		for(MonthPrice m : monthPriceList) {
+			monthPrice.set(m.getMonth()-1, m);			
+		}
+		
+		Map<String, Object> cashSumMap = new HashMap<String, Object>();
+		cashSumMap.put("year", year);
+		cashSumMap.put("memberId", loginMember.getMemberId());
+		int cashSum = cashService.getCashSumYear(cashSumMap);
+
+
+		//월별 가계부 합산금액
+		model.addAttribute("monthPrice", monthPrice);
+		
+		//이전년도,다음년도
+		model.addAttribute("beforeYear", year - 1);
+		model.addAttribute("afterYear", year + 1);
+		
+		//연도별 합계금액
+		model.addAttribute("cashSum", cashSum);
+		
+		
+		return "getCashListByYear";
+	}
+	
+	@GetMapping("/cashBookList")
+	public String cashBookList(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}		
+		
+		List<Year> yearList = cashService.getCashYearList("jschoi");
+		model.addAttribute("yearList", yearList);		
+		
+		return "cashBookList";
+	}
+	
 	
 	@PostMapping("/modifyCashOne")
 	public String modifyCashOne(HttpSession session, Cash cash, @RequestParam(value = "cashDatePicker", required = false) @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate day) {

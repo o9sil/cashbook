@@ -103,7 +103,7 @@ public class BoardController {
 		
 		Board board = new Board();
 		board.setBoardNo(boardNo);
-		board.setMemberId(loginMember.getMemberId());
+		//board.setMemberId(loginMember.getMemberId());
 		
 		model.addAttribute("board", boardService.getBoardOne(board));
 		

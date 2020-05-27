@@ -32,15 +32,20 @@
 <body>
 <div class="container-fluid p-0">
 		
+	<div style="margin: 20px;">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	    	가계부 설명
+	  	</button>
+  	</div>
 	<div class="cash">
 		<h1>Cash Book</h1>
+		
 		<div th:if="${session.loginMember != null}">
 			<div class="memberBtn"><a th:href="@{/home}" class="btn btn-primary">메인 페이지</a></div>
 			<div class="memberBtn"><a th:href="@{/logout}" class="btn btn-primary" th:text="${session.loginMember.memberId} + '님 로그아웃'"></a></div>			
 		</div>
-		<div th:if="${session.loginMember == null}">
-			<div class="memberBtn"><a th:href="@{/adminLogin}" class="btn btn-primary">관리자 로그인</a></div>
-			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">일반회원 로그인</a></div>
+		<div th:if="${session.loginMember == null}">			
+			<div class="memberBtn"><a th:href="@{/login}" class="btn btn-primary">로그인</a></div>
 			<div class="memberBtn"><a th:href="@{/addMember}" class="btn btn-primary">회원가입</a></div>
 			
 		</div>
@@ -58,6 +63,82 @@
 		본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수 있습니다.<br>
 		Copyright © JSsoft Corp. All Rights Reserved.
 	</div>
+	
+	<div style="position: absolute; bottom: 10px; right:10px;">
+		<div class="memberBtn"><a th:href="@{/adminLogin}">관리자 로그인</a></div>
+	</div>
+	
+	
+	<!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">가계부 구성</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+<pre>
+일반회원 기능
+
+- 로그인
+	로그인 = 아이디와 비밀번호 입력시 DB 조회후 일치하는 아이디 있으면 로그인한다.
+	아이디 / 비밀번호 조회 = 사용자가 입력한 정보로 일치하는 회원이 있는지 보여준다(비밀번호는 수정후 메일로 전송한다)
+- 회원가입
+	사용자가 회원가입 시도시 기존 회원과 ID 동일한 회원이 있는지 조회 후 없을 시 DB 저장한다.
+- 회원정보 페이지
+	사용자가 회원가입시 입력한 정보를 보여준다.
+	비밀번호 수정시 기존 비밀번호를 확인 후 변경을 가능하게 한다.
+	그 외 회원정보는 바로 수정이 가능하다.
+	회원 탈퇴시 비밀번호 확인 작업 후 회원 탈퇴가 가능하다.
+	회원 탈퇴시 사용자가 작성한 게시글 등 모든 정보는 삭제가 되며 사용자의 아이디는 다른 DB에 저장되어 재사용이 불가능하다.
+- 일별 가계부
+	사용자가 작성한 가계부 리스트를 보여준다.
+	현재 날짜(날짜 선택 가능)의 가계부 리스트를 출력하며 합계 금액도 함께 확인이 가능하다.
+- 가계부 입력
+	사용자는 가계부를 입력할 수 있다.
+	현재 보고있던 날짜가 기본 선택되며 수입/지출, 카테고리 선택 후 간단한 기록이 가능하다.
+	가계부 입력 시 공개여부 선택이 가능하다(비공개를 하면 본인과 관리자만 조회 가능하다)
+- 월별 가계부
+	사용자는 선택한 달의 가계부 내역을 확인할 수 있다.
+	일자별 총 수입/지출의 합계 금액이 나오며 날짜를 선택하면 선택한 일자의 가계부 리스트가 조회 가능하다.
+- 가계부 관리
+	사용자가 입력한 가계부들을 연도별로 조회할 수 있다.
+	연도를 선택할 시 각각의 달별로 총 수입/지출의 합계가 뜨며 전체 1년치의 총 합계도 조회가 가능하다.
+- QnA
+	사용자는 게시글 작성 및 검색이 가능하다.
+	게시글은 전체공개 / 비공개(본인 및 관리자만 조회 가능) 이 가능하며 답글은 본인/관리자만 답글이 가능하다.
+	전체공개 되어있더라도 타 사용자의 게시글에 답글을 달 수 없다.
+
+
+관리자 기능
+
+- 로그인
+	회원 중 가계부 관리자 회원은 로그인이 가능하다
+- 회원정보
+	관리자는 현재 가계부에 등록되어 있는 모든 회원의 리스트를 조회 할 수 있다.
+- QnA
+	관리자는 모든 회원의 QnA 게시판 글 조회가 가능하다.
+	관리자는 QnA 게시판에 글을 생성할 수는 없다.
+	관리자는 일반 회원이 작성한 글에 답글을 달 수 있다.
+	답글 작성 시 공개여부 선택이 가능하다(비공개시 원글의 작성자, 본인만 조회가 가능하다)
+</pre>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+	
+	
 	
 </div>
 </body>

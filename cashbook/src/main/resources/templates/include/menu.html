@@ -19,10 +19,11 @@
 			<span th:text="${session.loginMember.memberId} + ' 님'" style="padding-left: 8px"></span>
 						
 			<a th:href="@{/home}" style="padding-left: 8px; font-size: 22px;">Home</a>			
-      		<a th:href="@{/memberInfo}" style="padding-left: 8px">회원정보</a>
+      		<a th:href="@{/memberInfo}" style="padding-left: 8px">회원정보</a>      		
 			<a th:href="@{/getCashListByDate}" style="padding-left: 8px">일별 가계부</a>
 			<a th:href="@{/getCashListByMonth}" style="padding-left: 8px">월별 가계부</a>
-			<a th:href="@{/boardList}" style="padding-left: 8px">게시판</a>
+			<a th:href="@{/cashBookList}" style="padding-left: 8px">가계부 관리</a>
+			<a th:href="@{/boardList}" style="padding-left: 8px">QnA</a>
 			<a th:href="@{/logout}" style="padding-left: 8px">로그아웃</a>
 			
 		</div>

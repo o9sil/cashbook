@@ -79,6 +79,7 @@
 		FROM member
 		WHERE member_id = #{memberId} 
 		AND member_pw = PASSWORD(#{memberPw})
+		AND member_id NOT IN (SELECT admin_id FROM admin)
 	</select>
 
 	<!-- 회원가입 -->

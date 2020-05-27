@@ -52,13 +52,20 @@ public class MemberService {
 		String memberPic = memberMapper.selectMemberPic(loginMember.getMemberId());
 		// 파일 삭제
 		File file = new File(path + memberPic);
-		if(file.exists()) {
-			file.delete();
-		}
+//		if(file.exists()) {
+//			file.delete();
+//		}
 		
 		//트랜잭션 처리를 위한 제어문
 		if(memberMapper.deleteMemberOne(loginMember) == 1) {
-			return memberidMapper.insertMemberidOne(loginMember.getMemberId());			
+			if(memberidMapper.insertMemberidOne(loginMember.getMemberId()) == 1) {
+				if(!memberPic.equals("default.jpg")) {
+					if(file.exists()) {
+						file.delete();
+					}
+				}				
+				return 1;
+			}						
 		}		
 		return 0;
 	}

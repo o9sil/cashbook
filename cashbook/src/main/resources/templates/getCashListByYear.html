@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>getCashListByYear</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link th:href="@{/styles/css/menu.css}" rel="stylesheet">
+<style>
+#header {
+	margin-top: 60px;
+	display: flex;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#box-left {  
+	flex: 1;  
+}
+#box-center {  
+	flex: 10;
+	text-align: center;
+}
+#box-right {  
+	flex: 1;
+	text-align: right;
+}
+
+.btnS{
+	border-radius: 17px; 
+	width: 100px; 
+	background-color: #f1f1f1!important
+}
+
+.p-2{
+	width: 300px;
+	height: 300px;
+	margin: 20px;
+}
+
+.table-size tr th{
+	width: 16%;
+}
+.td-red{
+	color: red;
+}
+
+.td-blue{
+	color: blue;
+}
+
+</style>
+<script>
+$(document).ready(function(){
+	
+	$('.monthTable tr td').click(function(){
+		//console.log(this.id);
+		location.href = 'getCashListByMonth?day=' + this.id;		
+	});
+	
+});
+
+</script>
+
+</head>
+<body>
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-sm-1">
+			<div th:include="/include/menu::sidemenu"></div>
+		</div>
+		<div class="col-sm-11">			
+			
+			<div id="header">
+						
+				<div id="box-center">
+					<h2>		
+						<th:block th:text="|${param.year}년 월별 비교|">						
+						</th:block>										
+					</h2>					
+				</div>
+				
+			</div>
+		
+			<div style="padding: 30px">
+				<table class="table table-bordered monthTable">
+					<thead class="thead-light table-size">
+						<tr>
+							<th>1월</th>
+							<th>2월</th>
+							<th>3월</th>
+							<th>4월</th>
+							<th>5월</th>
+							<th>6월</th>							
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} < 6">	
+								<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
+									th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
+									th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
+									
+								</td>	
+							</th:block>
+						</tr>
+					</tbody>
+				</table>
+			</div>			
+			<div style="padding: 30px">
+				<table class="table table-bordered monthTable">
+					<thead class="thead-light table-size">
+						<tr>
+							<th>7월</th>
+							<th>8월</th>
+							<th>9월</th>
+							<th>10월</th>
+							<th>11월</th>
+							<th>12월</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} > 5">								
+								<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
+									th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
+									th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
+									
+								</td>
+							</th:block>
+						</tr>
+					</tbody>
+				</table>				
+			</div>
+			
+			
+			
+			<h2 th:class="${cashSum >= 0 ? 'td-blue' : 'td-red'}" th:text="|${#numbers.formatInteger(cashSum, 0, 'COMMA')} 원|"
+				style="text-align: right; padding: 30px;"
+			>
+			
+			</h2>
+			
+			
+			
+			
+			
+
+
+		</div>
+	</div>
+
+	
+</div>
+</body>
+</html>

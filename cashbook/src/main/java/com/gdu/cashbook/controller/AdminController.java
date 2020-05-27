@@ -1,4 +1,4 @@
-package com.gdu.cashbook.mapper;
+package com.gdu.cashbook.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +32,13 @@ public class AdminController {
 			return "redirect:/";
 		}
 		
-		List<Member> memberList = adminService.getMemberList();
-//		for(Member m : memberList) {
-//			System.out.println(m);
-//		}
+		Map<String, Object> map = new HashMap<String, Object>();
+				
+		map = adminService.getMemberList(1);
 		
-		model.addAttribute("list", memberList);
+		model.addAttribute("memberList", map.get("memberList"));
+		model.addAttribute("pagingList", map.get("pagingList"));
+		
 		
 		return "adminGetMemberList";
 	}

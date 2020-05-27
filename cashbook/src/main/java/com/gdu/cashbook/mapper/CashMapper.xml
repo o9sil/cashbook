@@ -4,6 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
 
+	<!-- 한 해의 전체 합계 가져오기 -->
+	<select id="selectCashSumYear" parameterType="hashMap" resultType="int">
+		SELECT SUM(case when cash_kind='수입' then cash_price when cash_kind='지출' then -cash_price END) AS cash_price
+		FROM cash
+		WHERE YEAR(cash_date) = #{year}
+		AND member_id = #{memberId}
+	</select>
+	
+	
+
+	<!-- 한 해의 월별 금액 합계 가져오기 -->
+	<select id="selectCashMonthPrice" parameterType="hashmap" resultType="com.gdu.cashbook.vo.MonthPrice">
+		SELECT 
+			MONTH(cash_date) AS month, 
+			SUM(case when cash_kind='수입' then cash_price when cash_kind='지출' then -cash_price END) AS price
+		FROM cash
+		WHERE YEAR(cash_date) = #{year}
+		AND member_id = #{memberId}
+		GROUP BY MONTH(cash_date)
+	</select>
+	
+
+	<!-- 가계부 관리 연도별 데이터 가져오기 -->
+	<select id="selectCashYearList" parameterType="String" resultType="java.time.Year">
+		SELECT YEAR(cash_date) 
+		FROM cash 
+		WHERE member_id = #{memberId} 
+		GROUP BY YEAR(cash_date)
+		ORDER BY YEAR(cash_date) DESC
+	</select>
+
 	<!-- 가계부 수정 -->
 	<update id="updateCashOne" parameterType="com.gdu.cashbook.vo.Cash">
 		UPDATE cash

@@ -8,7 +8,7 @@
 	<select id="selectMemberIdBoard" parameterType="com.gdu.cashbook.vo.Board" resultType="String">
 		SELECT member_id 
 		from board 
-		where board_no = (SELECT board_parent FROM board WHERE board_no=#{boardNo} AND member_id='admin')
+		where board_no = (SELECT board_parent FROM board WHERE board_no=#{boardNo} AND member_id IN (SELECT admin_id FROM admin))
 	</select>
 
 	<!-- 게시글 답글달기 -->

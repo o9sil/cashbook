@@ -71,7 +71,7 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
-						<th:block th:each="member, num:${list}">
+						<th:block th:each="member, num:${memberList}">
 							<tr>
 								<td th:text="${member.getMemberId()}"></td>
 								<td th:text="${member.getMemberName()}"></td>	
@@ -82,6 +82,19 @@ $(document).ready(function(){
 						</th:block>
 					</tbody>
 				</table>	
+			</div>
+			
+			<div style="margin-top: 30px">			
+				<ul class="pagination justify-content-center">									
+					<th:block th:each="paging, num:${pagingList}">						
+						<th:block th:if="${paging.getPageSelect() == true}">
+							<li class="page-item active"><a class="page-link" th:href="@{/adminGetMemberList(currentPage=${paging.getPageNum()})}" th:text="${paging.getPageNum()}"></a>	
+						</th:block>
+						<th:block th:if="${paging.getPageSelect() == false}">
+							<li class="page-item"><a class="page-link" th:href="@{/adminGetMemberList(currentPage=${paging.getPageNum()})}" th:text="${paging.getPageNum()}"></a>	
+						</th:block>						
+					</th:block>
+				</ul>
 			</div>
 			
 			

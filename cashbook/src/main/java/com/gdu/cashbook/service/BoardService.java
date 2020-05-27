@@ -53,7 +53,7 @@ public class BoardService {
 		Board resultBoard = new Board();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		//System.out.println("board = " + board);
 		//레벨 0일시 모두가 조회 가능 1일시 본인만 조회 가능
 		if(boardMapper.selectBoardLevel(board.getBoardNo()) == 0) {
 			//데이터 가져오기			
@@ -66,10 +66,12 @@ public class BoardService {
 			String memberId = boardMapper.selectMemberIdBoard(board);
 			//System.out.println(memberId + " memberId");
 			//System.out.println(board.getMemberId() + " board.getMemberId()");
+			
+			//관리자 글인지 확인후 관리자 글이면 원글 작성자, 관리자만 열람 가능			
 			if(memberId == null) {
 				map.put("memberId", board.getMemberId());
-			}else if(memberId.equals(board.getMemberId())){
-				map.put("memberId", "admin");				
+			}else if(memberId.equals(board.getMemberId())){				
+				map.put("memberId", boardMapper.selectBoardMemberId(board.getBoardNo()));
 			}else {
 				map.put("memberId", board.getMemberId());
 			}

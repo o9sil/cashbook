@@ -4,14 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.AdminMapper">
 
-	<select id="selectMemberList" resultType="com.gdu.cashbook.vo.Member">
+	<!-- 회원 전체 인원 파악 -->
+	<select id="selectMemberCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE member_id NOT IN (SELECT admin_id FROM admin)
+	</select>
+
+	<select id="selectMemberList" resultType="com.gdu.cashbook.vo.Member" parameterType="hashmap">
 		SELECT 
 			member_id AS memberId,
 			member_name AS memberName,
 			member_addr AS memberAddr,
 			member_phone AS memberPhone,
 			member_email AS memberEmail			
-		FROM member WHERE member_id NOT IN (SELECT admin_id FROM admin)
+		FROM member 
+		WHERE member_id NOT IN (SELECT admin_id FROM admin)
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 
 	<select id="selectLoginAdmin" parameterType="com.gdu.cashbook.vo.Admin" resultType="String">
