@@ -56,42 +56,37 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">			
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">		
 			
-			<div id="header">		
-						
-				<div id="box-center">
-					<h1>						
-						가계부
-					</h1>					
-				</div>
+	<div id="header">		
 				
-			</div>
+		<div id="box-center">
+			<h1>						
+				가계부
+			</h1>					
+		</div>
 		
-			<div style="padding-top: 30px">
-				<div class="d-flex flex-wrap align-content-stretch" style="text-align: center;">
-					<th:block th:each="year, num:${yearList}">
+	</div>
+
+	<div style="padding-top: 30px">
+		<div class="d-flex flex-wrap align-content-stretch" style="text-align: center;">
+			<th:block th:each="year, num:${yearList}">
+				
+				<div class="p-2" th:id="${year}">
+					<img th:src="@{'/styles/upload/' + book.PNG}" style="width: 250px;">
+					<th:block th:text="|${year}년도 가계부 |"></th:block>
+				</div>	
+			</th:block>							
 						
-						<div class="p-2" th:id="${year}">
-							<img th:src="@{'/styles/upload/' + book.PNG}" style="width: 250px;">
-							<th:block th:text="|${year}년도 가계부 |"></th:block>
-						</div>	
-					</th:block>							
-								
-				</div>
-			</div>
-			
-			
-			
-
-
 		</div>
 	</div>
+	
+	
+	
+
+
+
 
 	
 </div>

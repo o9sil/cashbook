@@ -102,75 +102,68 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<div style="padding-top: 60px">
-				<form id="modifyForm" method="post" th:action="@{/modifyMember}" enctype="multipart/form-data">
-					<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th colspan="2">회원정보 수정</th>						
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>사진</td>
-								<td>
-									<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;" id="img">
-									<div class="custom-file mb-3" style="margin-top: 10px">
-							      		<input type="file" class="custom-file-input" id="memberPic" name="memberPic">
-							      		<label class="custom-file-label" for="memberPic"></label>
-							    	</div>
-							    	<span id="imgHelper"></span>
-								</td>
-							</tr>
-							<tr>
-								<td width="20%">아이디</td>
-								<td><input id="memberId" name="memberId" type="text" class="form-control" th:value="${member.memberId}" readonly="readonly"></td>
-							</tr>						
-							<tr>
-								<td>이름</td>
-								<td>
-									<input id="memberName" name="memberName" type="text" class="form-control" th:value="${member.memberName}">
-									<span id="nameHelper"></span>
-								</td>							
-							</tr>
-							<tr>
-								<td>주소</td>
-								<td>
-									<input id="memberAddr" name="memberAddr" type="text" class="form-control" th:value="${member.memberAddr}">
-									<span id="addrHelper"></span>
-								</td>							
-							</tr>
-							<tr>
-								<td>전화번호</td>
-								<td>
-									<input id="memberPhone" name="memberPhone" type="text" class="form-control" th:value="${member.memberPhone}">
-									<span id="phoneHelper"></span>
-								</td>							
-							</tr>
-							<tr>
-								<td>이메일</td>
-								<td>
-									<input id="memberEmail" name="memberEmail" type="text" class="form-control" th:value="${member.memberEmail}">
-									<span id="emailHelper"></span>
-								</td>
-							</tr>
-						</tbody>
-					</table>	
-					
-					<button id="btn" type="button" class="btn" style="background-color: #819FF7; width: 200px;">회원정보 수정</button>
-				</form>
-					
-			</div>
-
-
-		</div>
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
+	<div style="padding-top: 60px">
+		<form id="modifyForm" method="post" th:action="@{/modifyMember}" enctype="multipart/form-data">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th colspan="2">회원정보 수정</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>사진</td>
+						<td>
+							<img th:src="@{'/styles/upload/' + ${member.memberPic}}" style="width: 150px;" id="img">
+							<div class="custom-file mb-3" style="margin-top: 10px">
+					      		<input type="file" class="custom-file-input" id="memberPic" name="memberPic">
+					      		<label class="custom-file-label" for="memberPic"></label>
+					    	</div>
+					    	<span id="imgHelper"></span>
+						</td>
+					</tr>
+					<tr>
+						<td width="20%">아이디</td>
+						<td><input id="memberId" name="memberId" type="text" class="form-control" th:value="${member.memberId}" readonly="readonly"></td>
+					</tr>						
+					<tr>
+						<td>이름</td>
+						<td>
+							<input id="memberName" name="memberName" type="text" class="form-control" th:value="${member.memberName}">
+							<span id="nameHelper"></span>
+						</td>							
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td>
+							<input id="memberAddr" name="memberAddr" type="text" class="form-control" th:value="${member.memberAddr}">
+							<span id="addrHelper"></span>
+						</td>							
+					</tr>
+					<tr>
+						<td>전화번호</td>
+						<td>
+							<input id="memberPhone" name="memberPhone" type="text" class="form-control" th:value="${member.memberPhone}">
+							<span id="phoneHelper"></span>
+						</td>							
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td>
+							<input id="memberEmail" name="memberEmail" type="text" class="form-control" th:value="${member.memberEmail}">
+							<span id="emailHelper"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+			
+			<button id="btn" type="button" class="btn" style="background-color: #819FF7; width: 200px;">회원정보 수정</button>
+		</form>
+			
 	</div>
+
 
 	
 </div>

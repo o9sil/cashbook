@@ -121,7 +121,7 @@
 			board_no AS boardNo, 
 			member_id AS memberId, 
 			board_title AS boardTitle,
-			board_date AS boardDate,
+			date(board_date) AS boardDate,
 			board_level AS boardLevel,
 			board_re_level AS boardReLevel
 		FROM board

@@ -7,11 +7,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
 
+</style>
 </head>
 <body>
 	<!-- fragment1 -->
-	<div th:fragment="sidemenu">	<!-- /include/menu::sidemenu -->		
+	<!-- <div th:fragment="sidemenu">	/include/menu::sidemenu		
 		
 		<div class="sidenav">
 			<img th:src="@{'/styles/upload/' + ${session.loginMember.memberPic}}" class="rounded-circle" alt="Cinque Terre">
@@ -29,6 +31,20 @@
 		</div>
 
 		
+	</div> -->
+	
+	<div th:fragment="navSidemenu">
+	<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open" id="cbp-spmenu-s1">
+		<h3 th:text="${session.loginMember.memberId} + ' 님'"></h3>					
+					
+			<a th:href="@{/home}">Home</a>
+      		<a th:href="@{/memberInfo}">회원정보</a>      		
+			<a th:href="@{/getCashListByDate}">일별 가계부</a>
+			<a th:href="@{/getCashListByMonth}">월별 가계부</a>
+			<a th:href="@{/cashBookList}">가계부 관리</a>
+			<a th:href="@{/boardList}">QnA</a>
+			<a th:href="@{/logout}">로그아웃</a>
+	</nav>
 	</div>
 	
 </body>

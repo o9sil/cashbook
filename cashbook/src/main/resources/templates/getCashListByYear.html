@@ -65,92 +65,82 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">			
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">	
 			
-			<div id="header">
-						
-				<div id="box-center">
-					<h2>		
-						<th:block th:text="|${param.year}년 월별 비교|">						
-						</th:block>										
-					</h2>					
-				</div>
+	<div id="header">
 				
-			</div>
-		
-			<div style="padding: 30px">
-				<table class="table table-bordered monthTable">
-					<thead class="thead-light table-size">
-						<tr>
-							<th>1월</th>
-							<th>2월</th>
-							<th>3월</th>
-							<th>4월</th>
-							<th>5월</th>
-							<th>6월</th>							
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} < 6">	
-								<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
-									th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
-									th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
-									
-								</td>	
-							</th:block>
-						</tr>
-					</tbody>
-				</table>
-			</div>			
-			<div style="padding: 30px">
-				<table class="table table-bordered monthTable">
-					<thead class="thead-light table-size">
-						<tr>
-							<th>7월</th>
-							<th>8월</th>
-							<th>9월</th>
-							<th>10월</th>
-							<th>11월</th>
-							<th>12월</th>	
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} > 5">								
-								<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
-									th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
-									th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
-									
-								</td>
-							</th:block>
-						</tr>
-					</tbody>
-				</table>				
-			</div>
-			
-			
-			
-			<h2 th:class="${cashSum >= 0 ? 'td-blue' : 'td-red'}" th:text="|${#numbers.formatInteger(cashSum, 0, 'COMMA')} 원|"
-				style="text-align: right; padding: 30px;"
-			>
-			
-			</h2>
-			
-			
-			
-			
-			
-
-
+		<div id="box-center">
+			<h2>		
+				<th:block th:text="|${param.year}년 월별 비교|">						
+				</th:block>										
+			</h2>					
 		</div>
+		
 	</div>
 
+	<div style="padding: 30px">
+		<table class="table table-bordered monthTable">
+			<thead class="thead-light table-size">
+				<tr>
+					<th>1월</th>
+					<th>2월</th>
+					<th>3월</th>
+					<th>4월</th>
+					<th>5월</th>
+					<th>6월</th>							
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} < 6">	
+						<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
+							th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
+							th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
+							
+						</td>	
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
+	</div>			
+	<div style="padding: 30px">
+		<table class="table table-bordered monthTable">
+			<thead class="thead-light table-size">
+				<tr>
+					<th>7월</th>
+					<th>8월</th>
+					<th>9월</th>
+					<th>10월</th>
+					<th>11월</th>
+					<th>12월</th>	
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th:block th:each="monthPrice, index:${monthPrice}" th:if="${index.index} > 5">								
+						<td th:class="${monthPrice.getPrice() >= 0} ? 'td-blue' : 'td-red'" 
+							th:text="${#numbers.formatInteger(monthPrice.getPrice(), 0, 'COMMA')}"
+							th:id="|${param.year}-${#numbers.formatInteger(monthPrice.getMonth(),2)}-01|">
+							
+						</td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>				
+	</div>
+	
+	
+	
+	<h2 th:class="${cashSum >= 0 ? 'td-blue' : 'td-red'}" th:text="|${#numbers.formatInteger(cashSum, 0, 'COMMA')} 원|"
+		style="text-align: right; padding: 30px;">
+	
+	</h2>
+			
+			
+			
+			
+		
 	
 </div>
 </body>

@@ -52,91 +52,86 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<h3 style="padding-top: 30px">
-				<th:block th:text="${#temporals.year(day)}"></th:block>
-				년 가계부
-			</h3>
-			
-			<div id="header">		
-				<div id="box-left">					
-					<a th:href="@{/getCashListByMonth(day=${day.minusMonths(1)})}" class="btn btn-light btnS">이전</a>					
-				</div>		
-				<div id="box-center">
-					<h4>
-						<th:block th:text="${day.getYear() + '년 ' + day.getMonthValue() + '월'}"></th:block>						
-					</h4>					
-				</div>
-				<div id="box-right">
-					<a th:href="@{/getCashListByMonth(day=${day.plusMonths(1)})}" class="btn btn-light btnS">다음</a>
-				</div>
-			</div>
-		
-			<div style="padding: 30px">
-				<table class="table table-bordered">
-					<thead class="thead-light" style="text-align: center;">
-						<tr>
-							<th style="width: 14%">일</th>
-							<th style="width: 14%">월</th>
-							<th style="width: 14%">화</th>
-							<th style="width: 14%">수</th>
-							<th style="width: 14%">목</th>
-							<th style="width: 14%">금</th>
-							<th style="width: 14%">토</th>				
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr th:each="week, num:${output.calendar}" style="height: 145px;">
-							<th:block th:if="${num.index} == 0">
-								<th:block th:with="var = 7 - ${#lists.size(week)}">
-									<th:block th:if="${var} > 0">
-										<th:block th:each="n: ${#numbers.sequence(1,var)}">
-											<td></td>
-										</th:block>
-									</th:block>								
-								</th:block>
-							</th:block>
-							
-							
-							
-							<th:block th:each="day, num2:${week}">									
-								<td th:if="${day != null}" style="cursor: hand;" class="tdClass" th:id="${day}">
-									<label th:text="${day.getDayOfMonth()}"></label>																		
-									
-									<th:block th:each="dday, num:${dayAndPrice}">
-										<th:block th:if="${dday.getDay() == day.getDayOfMonth()}">
-											<br>
-											<span th:class="${dday.getPrice() >=0} ? 'td-blue' : 'td-red'" th:text="${#numbers.formatInteger(dday.getPrice(), 0, 'COMMA')}"></span>
-										</th:block>
-									</th:block>									
-								</td>
-							</th:block>
-							
-							
-							
-							<th:block th:if="${num.index} == ${num.size} - 1">
-								<th:block th:with="var = 7 - ${#lists.size(week)}">
-									<th:block th:if="${var} > 0">
-										<th:block th:each="n: ${#numbers.sequence(1,var)}">
-											<td></td>
-										</th:block>
-									</th:block>								
-								</th:block>
-							</th:block>
-						</tr>						
-					</tbody>
-				</table>	
-			</div>
-			
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
 
+	<h3 style="padding-top: 30px">
+		<th:block th:text="${#temporals.year(day)}"></th:block>
+		년 가계부
+	</h3>
+	
+	<div id="header">		
+		<div id="box-left">					
+			<a th:href="@{/getCashListByMonth(day=${day.minusMonths(1)})}" class="btn btn-light btnS">이전</a>					
+		</div>		
+		<div id="box-center">
+			<h4>
+				<th:block th:text="${day.getYear() + '년 ' + day.getMonthValue() + '월'}"></th:block>						
+			</h4>					
+		</div>
+		<div id="box-right">
+			<a th:href="@{/getCashListByMonth(day=${day.plusMonths(1)})}" class="btn btn-light btnS">다음</a>
 		</div>
 	</div>
+
+	<div style="padding: 30px">
+		<table class="table table-bordered">
+			<thead class="thead-light" style="text-align: center;">
+				<tr>
+					<th style="width: 14%">일</th>
+					<th style="width: 14%">월</th>
+					<th style="width: 14%">화</th>
+					<th style="width: 14%">수</th>
+					<th style="width: 14%">목</th>
+					<th style="width: 14%">금</th>
+					<th style="width: 14%">토</th>				
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="week, num:${output.calendar}" style="height: 145px;">
+					<th:block th:if="${num.index} == 0">
+						<th:block th:with="var = 7 - ${#lists.size(week)}">
+							<th:block th:if="${var} > 0">
+								<th:block th:each="n: ${#numbers.sequence(1,var)}">
+									<td></td>
+								</th:block>
+							</th:block>								
+						</th:block>
+					</th:block>
+					
+					
+					
+					<th:block th:each="day, num2:${week}">									
+						<td th:if="${day != null}" style="cursor: hand;" class="tdClass" th:id="${day}">
+							<label th:text="${day.getDayOfMonth()}"></label>																		
+							
+							<th:block th:each="dday, num:${dayAndPrice}">
+								<th:block th:if="${dday.getDay() == day.getDayOfMonth()}">
+									<br>
+									<span th:class="${dday.getPrice() >=0} ? 'td-blue' : 'td-red'" th:text="${#numbers.formatInteger(dday.getPrice(), 0, 'COMMA')}"></span>
+								</th:block>
+							</th:block>									
+						</td>
+					</th:block>
+					
+					
+					
+					<th:block th:if="${num.index} == ${num.size} - 1">
+						<th:block th:with="var = 7 - ${#lists.size(week)}">
+							<th:block th:if="${var} > 0">
+								<th:block th:each="n: ${#numbers.sequence(1,var)}">
+									<td></td>
+								</th:block>
+							</th:block>								
+						</th:block>
+					</th:block>
+				</tr>						
+			</tbody>
+		</table>	
+	</div>
+			
+
 
 	
 </div>

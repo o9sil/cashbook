@@ -42,61 +42,54 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<div style="padding-top: 60px">				
-				<table class="table">	
-					<thead class="thead-dark">
-						<tr>
-							<th colspan="2">게시글 보기</th>						
-						</tr>
-					</thead>				
-					<tbody>
-						<tr>
-							<td width="20%">글 제목</td>
-							<td th:text="${board.boardTitle}"></td>
-						</tr>
-						<tr>
-							<td>작성자 이름</td>
-							<td th:text="${board.memberId}"></td>
-						</tr>
-						<tr>
-							<td>작성날짜</td>
-							<td th:text="${board.boardDate}"></td>
-						</tr>
-						<tr>
-							<td>글 내용</td>
-							<td>
-								<textarea class="form-control" rows="20" th:text="${board.boardContent}" readonly="readonly" style="background: none;"></textarea>
-							</td>							
-						</tr>						
-					</tbody>
-				</table>				
-					
-				
-			</div>
-			<div style="margin-top: 20px;">					
-					<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
-					<th:block th:if="${board.boardReNo == 0}">
-						<th:block th:if="${board.memberId == session.loginMember.memberId}">
-							<a th:href="@{/addBoardReply(boardNo=${board.boardNo})}" class="btn" style="background-color: #F08080; width: 200px; margin-left: 20px;">답글달기</a>
-						</th:block>					
-					</th:block>
-					
-					<th:block th:if="${board.memberId == session.loginMember.memberId}">
-						<button type="button" class="btn" id="deleteBtn" style="background-color: #F5A9BC; width: 200px; float: right;">삭제</button>
-						<a th:href="@{/modifyBoardOne(boardNo=${board.boardNo})}" class="btn" style="background-color: #9999CC; width: 200px; float: right; margin-right: 20px;">수정</a>
-					</th:block>
-														
-			</div>
-
-
-		</div>
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
+	<div style="padding-top: 60px">				
+		<table class="table">	
+			<thead class="thead-dark">
+				<tr>
+					<th colspan="2">게시글 보기</th>						
+				</tr>
+			</thead>				
+			<tbody>
+				<tr>
+					<td width="20%">글 제목</td>
+					<td th:text="${board.boardTitle}"></td>
+				</tr>
+				<tr>
+					<td>작성자 이름</td>
+					<td th:text="${board.memberId}"></td>
+				</tr>
+				<tr>
+					<td>작성날짜</td>
+					<td th:text="${board.boardDate}"></td>
+				</tr>
+				<tr>
+					<td>글 내용</td>
+					<td>
+						<textarea class="form-control" rows="20" th:text="${board.boardContent}" readonly="readonly" style="background: none;"></textarea>
+					</td>							
+				</tr>						
+			</tbody>
+		</table>				
+			
+		
 	</div>
+	<div style="margin-top: 20px;">					
+			<a th:href="@{/boardList}" class="btn" style="background-color: #819FF7 ; width: 200px; float: left;">목록</a>
+			<th:block th:if="${board.boardReNo == 0}">
+				<th:block th:if="${board.memberId == session.loginMember.memberId}">
+					<a th:href="@{/addBoardReply(boardNo=${board.boardNo})}" class="btn" style="background-color: #F08080; width: 200px; margin-left: 20px;">답글달기</a>
+				</th:block>					
+			</th:block>
+			
+			<th:block th:if="${board.memberId == session.loginMember.memberId}">
+				<button type="button" class="btn" id="deleteBtn" style="background-color: #F5A9BC; width: 200px; float: right;">삭제</button>
+				<a th:href="@{/modifyBoardOne(boardNo=${board.boardNo})}" class="btn" style="background-color: #9999CC; width: 200px; float: right; margin-right: 20px;">수정</a>
+			</th:block>
+												
+	</div>
+
 
 	
 </div>

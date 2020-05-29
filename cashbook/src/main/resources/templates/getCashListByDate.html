@@ -37,86 +37,79 @@
 </style>
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<h3 style="padding-top: 30px">
-				
-				<th:block th:text="${#temporals.year(day)}"></th:block>
-				년 가계부
-			</h3>
-			
-			<div id="header">		
-				<div id="box-left">					
-					<a th:href="@{/getCashListByDate(day=${day.minusDays(1)})}" class="btn btn-light btnS">이전</a>					
-				</div>		
-				<div id="box-center">
-					<h4>
-						<!-- <a th:href="@{/getCashListByMonth(yearMonth=${yearMonth})}" th:text="${day} + ' ' + ${day.getDayOfWeek()}"></a> -->
-						<th:block th:text="${day} + ' ' + ${day.getDayOfWeek()}"></th:block>
-					</h4>					
-				</div>
-				<div id="box-right">
-					<a th:href="@{/getCashListByDate(day=${day.plusDays(1)})}" class="btn btn-light btnS">다음</a>
-				</div>
-			</div>
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
+	<h3 style="padding-top: 30px">
 		
-			<div style="padding-top: 30px">
-				<table class="table table-bordered" style="text-align: center;">
-					<thead class="thead-light">
-						<tr>
-							<th style="width: 10%">카테고리</th>
-							<th style="width: 15%">수입</th>
-							<th style="width: 15%">지출</th>
-							<th style="width: 15%">장소</th>
-							<th style="width: 35%">메모</th>
-							<th style="width: 5%">삭제</th>
-							<th style="width: 5%">수정</th>						
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="list, num:${cashList}">
-							<td th:text="${list.categoryName}"></td>
-							
-							<th:block th:if="${list.cashKind.toString().equals('수입')}">								
-								<td th:text="${'+' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>
-								<td></td>
-							</th:block>
-							<th:block th:if="${list.cashKind.toString().equals('지출')}">
-								<td></td>
-								<td th:text="${'-' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>								
-							</th:block>
-							
-							<td th:text="${list.cashPlace}"></td>
-							<td th:text="${list.cashMemo}"></td>
-							<td>
-								<a th:href="@{/removeCashOne(cashNo=${list.cashNo})}">삭제</a>
-							</td>
-							<td>
-								<a th:href="@{/modifyCashOne(cashNo=${list.cashNo})}">수정</a>
-							</td>
-						</tr>						
-					</tbody>
-				</table>	
-			</div>
-			
-			
-			<div style="margin: 20px">
-				<a th:href="@{/addCashOne(day=${day})}" class="btn btn-info" style="width: 100px">입력</a>
-			</div>
-			<div style="text-align: right; margin-right: 40px;">				
-				<h3>
-					합계&nbsp;&nbsp;
-					<th:block th:text="${#numbers.formatInteger(cashKindSum, 0, 'COMMA')}+'원'"></th:block>					
-				</h3>				
-			</div>
-
-
+		<th:block th:text="${#temporals.year(day)}"></th:block>
+		년 가계부
+	</h3>
+	
+	<div id="header">		
+		<div id="box-left">					
+			<a th:href="@{/getCashListByDate(day=${day.minusDays(1)})}" class="btn btn-light btnS">이전</a>					
+		</div>		
+		<div id="box-center">
+			<h4>
+				<!-- <a th:href="@{/getCashListByMonth(yearMonth=${yearMonth})}" th:text="${day} + ' ' + ${day.getDayOfWeek()}"></a> -->
+				<th:block th:text="${day} + ' ' + ${day.getDayOfWeek()}"></th:block>
+			</h4>					
+		</div>
+		<div id="box-right">
+			<a th:href="@{/getCashListByDate(day=${day.plusDays(1)})}" class="btn btn-light btnS">다음</a>
 		</div>
 	</div>
+
+	<div style="padding-top: 30px">
+		<table class="table table-bordered" style="text-align: center;">
+			<thead class="thead-light">
+				<tr>
+					<th>카테고리</th>
+					<th>수입</th>
+					<th>지출</th>
+					<th>장소</th>
+					<th>메모</th>
+					<th>삭제</th>
+					<th>수정</th>						
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list, num:${cashList}">
+					<td th:text="${list.categoryName}"></td>
+					
+					<th:block th:if="${list.cashKind.toString().equals('수입')}">								
+						<td th:text="${'+' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>
+						<td></td>
+					</th:block>
+					<th:block th:if="${list.cashKind.toString().equals('지출')}">
+						<td></td>
+						<td th:text="${'-' + #numbers.formatInteger(list.cashPrice, 0, 'COMMA')}"></td>								
+					</th:block>
+					
+					<td th:text="${list.cashPlace}"></td>
+					<td th:text="${list.cashMemo}"></td>
+					<td>
+						<a th:href="@{/removeCashOne(cashNo=${list.cashNo})}">삭제</a>
+					</td>
+					<td>
+						<a th:href="@{/modifyCashOne(cashNo=${list.cashNo})}">수정</a>
+					</td>
+				</tr>						
+			</tbody>
+		</table>	
+	</div>
+	
+	
+	<div style="margin: 20px">
+		<a th:href="@{/addCashOne(day=${day})}" class="btn btn-info" style="width: 100px">입력</a>
+	</div>
+	<div style="text-align: right; margin-right: 40px;">				
+		<h3>
+			합계&nbsp;&nbsp;
+			<th:block th:text="${#numbers.formatInteger(cashKindSum, 0, 'COMMA')}+'원'"></th:block>					
+		</h3>				
+	</div>
+
 
 	
 </div>

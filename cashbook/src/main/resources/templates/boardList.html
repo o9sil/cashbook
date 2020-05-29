@@ -41,94 +41,87 @@ $(document).ready(function(){
 <body>
 
 
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">		
+			
+	<div id="header">		
+			
+		<div id="box-center">
+			<h4>						
+				<th:block th:text="QnA"></th:block>
+			</h4>					
 		</div>
-		<div class="col-sm-11">			
-			
-			<div id="header">		
-					
-				<div id="box-center">
-					<h4>						
-						<th:block th:text="QnA"></th:block>
-					</h4>					
-				</div>
-				
-			</div>
 		
-			<div style="padding-top: 30px; padding-left: 30px; padding-right: 30px;">
-				<table class="table table-bordered">
-					<thead class="thead-light">
-						<tr>
-							<th style="width: 10%">글번호</th>
-							<th style="width: 50%">글제목</th>							
-							<th style="width: 15%">작성자</th>
-							<th style="width: 15%">작성일자</th>
-							<th style="width: 10%">공개여부</th>													
-						</tr>
-					</thead>
-					<tbody>
-						<th:block th:each="board, num:${boardList}">
-							<tr>
-								<td th:text="${board.getBoardNo()}"></td>
-								<td>
-									<th:block th:if="${board.getBoardReLevel() != 0}">
-										<th:block th:each="num : ${#numbers.sequence(1, board.getBoardReLevel())}">
-											&nbsp;
-										</th:block>
-											
-										┗								
-									</th:block>
-									
-									
-									<a th:href="@{/boardInfo(boardNo=${board.getBoardNo()},currentPage=${param.currentPage})}" th:text="${board.getBoardTitle()}"></a>									
-								</td>			
-												
-								
-								<td th:text="${board.getMemberId()}"></td>
-								<td th:text="${board.getBoardDate()}"></td>
-								
-								<td th:if="${board.getBoardLevel() == 0}" th:text="전체공개">								
-								</td>
-								<td th:if="${board.getBoardLevel() == 1}" th:text="비공개">								
-								</td>
-							</tr>
-						</th:block>			
-					</tbody>
-				</table>	
-			</div>
-			
-			<div style="margin-top: 30px">			
-				<ul class="pagination justify-content-center">									
-					<th:block th:each="paging, num:${pagingList}">						
-						<th:block th:if="${paging.getPageSelect() == true}">
-							<li class="page-item active"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()},search=${param.search})}" th:text="${paging.getPageNum()}"></a>	
-						</th:block>
-						<th:block th:if="${paging.getPageSelect() == false}">
-							<li class="page-item"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()},search=${param.search})}" th:text="${paging.getPageNum()}"></a>	
-						</th:block>						
-					</th:block>
-				</ul>
-			</div>
-			
-			
-			<div style="margin-top: 20px;">
-				<div style="display: inline-block; float: left;">
-					<a th:href="@{/addBoardOne}" class="btn" style="background-color: #819FF7 ; width: 200px;">게시글 작성</a>
-				</div>
-				<div class="input-group mb-3" style="width:85%; float:left; margin-left: 20px;">						
-					<input type="text" class="form-control" placeholder="글 제목 검색" id="searchText">
-					<div class="input-group-prepend">
-						<button class="btn btn-outline-primary" type="button" id="searchBtn">검색</button>
-					</div>
-				</div>
-			</div>
+	</div>
 
-
+	<div style="padding-top: 30px;">
+		<table class="table table-bordered">
+			<thead class="thead-light">
+				<tr>
+					<th style="width: 10%">글번호</th>
+					<th style="width: 50%">글제목</th>							
+					<th style="width: 15%">작성자</th>
+					<th style="width: 15%">작성일자</th>
+					<th style="width: 10%">공개여부</th>													
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="board, num:${boardList}">
+					<tr>
+						<td th:text="${board.getBoardNo()}"></td>
+						<td>
+							<th:block th:if="${board.getBoardReLevel() != 0}">
+								<th:block th:each="num : ${#numbers.sequence(1, board.getBoardReLevel())}">
+									&nbsp;
+								</th:block>
+									
+								┗								
+							</th:block>
+							
+							
+							<a th:href="@{/boardInfo(boardNo=${board.getBoardNo()},currentPage=${param.currentPage})}" th:text="${board.getBoardTitle()}"></a>									
+						</td>			
+										
+						
+						<td th:text="${board.getMemberId()}"></td>
+						<td th:text="${board.getBoardDate()}"></td>
+						
+						<td th:if="${board.getBoardLevel() == 0}" th:text="전체공개">								
+						</td>
+						<td th:if="${board.getBoardLevel() == 1}" th:text="비공개">								
+						</td>
+					</tr>
+				</th:block>			
+			</tbody>
+		</table>	
+	</div>
+	
+	<div style="margin-top: 30px">			
+		<ul class="pagination justify-content-center">									
+			<th:block th:each="paging, num:${pagingList}">						
+				<th:block th:if="${paging.getPageSelect() == true}">
+					<li class="page-item active"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()},search=${param.search})}" th:text="${paging.getPageNum()}"></a>	
+				</th:block>
+				<th:block th:if="${paging.getPageSelect() == false}">
+					<li class="page-item"><a class="page-link" th:href="@{/boardList(currentPage=${paging.getPageNum()},search=${param.search})}" th:text="${paging.getPageNum()}"></a>	
+				</th:block>						
+			</th:block>
+		</ul>
+	</div>
+	
+	
+	<div style="margin-top: 20px;">
+		<div>
+			<a th:href="@{/addBoardOne}" class="btn" style="background-color: #819FF7 ; width: 200px;">게시글 작성</a>
+		</div>
+		<div class="input-group mb-3" style="margin-top: 20px;">						
+			<input type="text" class="form-control" placeholder="글 제목 검색" id="searchText">
+			<div class="input-group-prepend">
+				<button class="btn btn-outline-primary" type="button" id="searchBtn">검색</button>
+			</div>
 		</div>
 	</div>
+
 
 	
 </div>

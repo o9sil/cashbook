@@ -62,81 +62,74 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<div style="padding-top: 60px">
-				<form id="myForm" method="post" th:action="@{/addCashOne}">
-					<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th colspan="2">수입/지출 입력</th>						
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>날짜선택</td>
-								<td>									
-									<input id="datepicker" name="cashDatePicker" width="auto" th:value="${#temporals.format(day,'MM/dd/yyyy')}">
-									
-								</td>
-							</tr>
-							<tr>
-								<td>수입/지출</td>
-								<td>
-									<select name="cashKind" class="custom-select" id="cashKind">
-										<option th:value="미선택">수입/지출을 선택하세요.</option>
-										<option th:value="1">수입</option>
-										<option th:value="0">지출</option>
-									</select>
-									<span id="kindHelper"></span>
-								</td>
-							</tr>
-							<tr>
-								<td style="width: 15%;">카테고리</td>
-								<td>
-									<select name="categoryName" class="custom-select" id="categoryName">
-										<option th:value="미선택">카테고리를 선택하세요.</option>
-									</select>	
-									<span id="categoryHelper"></span>										
-								</td>
-							</tr>
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
+	<div style="padding-top: 60px">
+		<form id="myForm" method="post" th:action="@{/addCashOne}">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th colspan="2">수입/지출 입력</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>날짜선택</td>
+						<td>									
+							<input id="datepicker" name="cashDatePicker" width="auto" th:value="${#temporals.format(day,'MM/dd/yyyy')}">
 							
-							<tr>
-								<td>금액</td>
-								<td>
-									<input type="text" class="form-control" id="cashPrice" name="cashPrice">
-									<span id="priceHelper"></span>
-								</td>
-							</tr>
-							<tr>
-								<td>장소</td>
-								<td>
-									<input type="text" class="form-control" id="cashPlace" name="cashPlace">
-								</td>
-							</tr>
-							<tr>
-								<td>메모</td>
-								<td>
-									<input type="text" class="form-control" id="cashMemo" name="cashMemo">
-								</td>
-							</tr>
-							
-						</tbody>
-					</table>				
-						
-					<div style="margin-top: 20px; text-align: center;">
-						<button type="button" id="btn" class="btn" style="background-color: #819FF7 ; width: 200px;">입력</button>									
-					</div>
-				</form>
+						</td>
+					</tr>
+					<tr>
+						<td>수입/지출</td>
+						<td>
+							<select name="cashKind" class="custom-select" id="cashKind">
+								<option th:value="미선택">수입/지출을 선택하세요.</option>
+								<option th:value="1">수입</option>
+								<option th:value="0">지출</option>
+							</select>
+							<span id="kindHelper"></span>
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 15%;">카테고리</td>
+						<td>
+							<select name="categoryName" class="custom-select" id="categoryName">
+								<option th:value="미선택">카테고리를 선택하세요.</option>
+							</select>	
+							<span id="categoryHelper"></span>										
+						</td>
+					</tr>
+					
+					<tr>
+						<td>금액</td>
+						<td>
+							<input type="text" class="form-control" id="cashPrice" name="cashPrice">
+							<span id="priceHelper"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>장소</td>
+						<td>
+							<input type="text" class="form-control" id="cashPlace" name="cashPlace">
+						</td>
+					</tr>
+					<tr>
+						<td>메모</td>
+						<td>
+							<input type="text" class="form-control" id="cashMemo" name="cashMemo">
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>				
+				
+			<div style="margin-top: 20px; text-align: center;">
+				<button type="button" id="btn" class="btn" style="background-color: #819FF7 ; width: 200px;">입력</button>									
 			</div>
-
-
-		</div>
+		</form>
 	</div>
+
 
 	
 </div>

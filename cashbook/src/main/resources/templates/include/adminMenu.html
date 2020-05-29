@@ -11,7 +11,7 @@
 </head>
 <body>
 	<!-- fragment1 -->
-	<div th:fragment="sidemenu">	<!-- /include/menu::sidemenu -->		
+<!-- 	<div th:fragment="sidemenu">	/include/menu::sidemenu		
 		
 		<div class="sidenav">			
 			<a th:href="@{/adminHome}" style="padding-left: 8px; font-size: 22px;">Home</a>			
@@ -21,6 +21,17 @@
 		</div>
 
 		
+	</div> -->
+	
+	<div th:fragment="navSidemenu">
+	<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open" id="cbp-spmenu-s1">
+		<h3>Admin</h3>		
+						
+			<a th:href="@{/adminHome}" style="padding-left: 8px; font-size: 22px;">Home</a>			
+      		<a th:href="@{/adminGetMemberList}" style="padding-left: 8px">회원정보</a>			
+			<a th:href="@{/adminBoardList}" style="padding-left: 8px">QnA</a>
+			<a th:href="@{/logout}" style="padding-left: 8px">로그아웃</a>	
+	</nav>
 	</div>
 	
 </body>

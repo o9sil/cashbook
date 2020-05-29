@@ -35,57 +35,51 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div class="container-fluid p-0">
-	<div class="row">
-		<div class="col-sm-1">
-			<div th:include="/include/menu::sidemenu"></div>
-		</div>
-		<div class="col-sm-11">
-			<form th:action="@{/addBoardOne}" method="post" id="myForm">	
+<div th:include="/include/menu::navSidemenu"></div>
+<div class="container">
+	<form th:action="@{/addBoardOne}" method="post" id="myForm">	
+	
+		<div style="padding-top: 60px">
+			<table class="table">	
+				<thead class="thead-dark">
+					<tr>
+						<th colspan="2">게시글 입력</th>						
+					</tr>
+				</thead>				
+				<tbody>
+					<tr>
+						<td width="20%">글 제목</td>
+						<td>
+							<input type="text" class="form-control" id="boardTitle" name="boardTitle">
+							<span id="titleHelper"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>공개 여부</td>
+						<td>
+							<select name="boardLevel" class="custom-select" id="boardLevel">										
+									<option th:value="0">전체공개</option>
+									<option th:value="1">비공개</option>
+							</select>									
+						</td>
+					</tr>
+					<tr>
+						<td>글 내용</td>
+						<td>
+							<textarea class="form-control" rows="20" id="boardContent" name="boardContent"></textarea>
+							<span id="contentHelper"></span>
+						</td>							
+					</tr>						
+				</tbody>
+			</table>				
+				
 			
-				<div style="padding-top: 60px">
-					<table class="table">	
-						<thead class="thead-dark">
-							<tr>
-								<th colspan="2">게시글 입력</th>						
-							</tr>
-						</thead>				
-						<tbody>
-							<tr>
-								<td width="20%">글 제목</td>
-								<td>
-									<input type="text" class="form-control" id="boardTitle" name="boardTitle">
-									<span id="titleHelper"></span>
-								</td>
-							</tr>
-							<tr>
-								<td>공개 여부</td>
-								<td>
-									<select name="boardLevel" class="custom-select" id="boardLevel">										
-											<option th:value="0">전체공개</option>
-											<option th:value="1">비공개</option>
-									</select>									
-								</td>
-							</tr>
-							<tr>
-								<td>글 내용</td>
-								<td>
-									<textarea class="form-control" rows="20" id="boardContent" name="boardContent"></textarea>
-									<span id="contentHelper"></span>
-								</td>							
-							</tr>						
-						</tbody>
-					</table>				
-						
-					
-				</div>
-				<div style="margin-top: 20px;">						
-					<button class="btn" id="btn" type="button" style="width: 200px; background-color: #819FF7;">저장</button>								
-				</div>
-
-			</form>
 		</div>
-	</div>
+		<div style="margin-top: 20px;">						
+			<button class="btn" id="btn" type="button" style="width: 200px; background-color: #819FF7;">저장</button>								
+		</div>
+
+	</form>
 
 	
 </div>
