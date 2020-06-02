@@ -7,14 +7,14 @@
 	<!-- 사용자 사진 정보 가져오기 -->
 	<select id="selectMemberPic" parameterType="String" resultType="String">
 		SELECT member_pic
-		FROM member
+		FROM kanghogado.cashbook_member
 		WHERE member_id = #{memberId}
 	</select>
 
 	<!-- ID 찾기(문자열 일부만 보여주기) -->
 	<select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
 		SELECT CONCAT(SUBSTRING(member_id, 1, 3), '****')
-		FROM member
+		FROM kanghogado.cashbook_member
 		WHERE member_name = #{memberName}
 		AND member_phone = #{memberPhone}
 		AND member_email = #{memberEmail}
@@ -22,7 +22,7 @@
 
 	<!-- 비밀번호 변경 -->
 	<update id="updateMemberPwOne" parameterType="com.gdu.cashbook.vo.UpdateMemberPw">
-		UPDATE member 
+		UPDATE cashbook_member 
 		SET member_pw = PASSWORD(#{updateMemberPw})
 		WHERE member_id = #{memberId}
 		AND member_pw = PASSWORD(#{memberPw})
@@ -31,14 +31,14 @@
 	<!-- 회원탈퇴 -->
 	<delete id="deleteMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember">
 		DELETE 
-		FROM member
+		FROM kanghogado.cashbook_member
 		WHERE member_id = #{memberId}
 		AND member_pw = PASSWORD(#{memberPw})
 	</delete>
 
 	<!-- 회원정보 수정 -->
 	<update id="updateMemberOne" parameterType="com.gdu.cashbook.vo.Member">
-		UPDATE member
+		UPDATE cashbook_member
 		SET 
 			member_name = #{memberName},
 			member_addr = #{memberAddr},
@@ -59,13 +59,13 @@
 			member_phone AS memberPhone,
 			member_email AS memberEmail,
 			member_pic AS memberPic
-		FROM member
+		FROM cashbook_member
 		WHERE member_id = #{memberId}		
 	</select>
 
 	<!-- 비밀번호 찾기시 랜덤으로 비밀번호 변경 -->
 	<update id="updateMemberRandPw" parameterType="com.gdu.cashbook.vo.Member">
-		UPDATE member
+		UPDATE cashbook_member
 		SET member_pw = PASSWORD(#{memberPw})
 		WHERE member_id = #{memberId}
 		AND member_email = #{memberEmail}
@@ -76,15 +76,15 @@
 		SELECT 
 			member_id AS memberId,
 			member_pic AS memberPic
-		FROM member
+		FROM cashbook_member
 		WHERE member_id = #{memberId} 
 		AND member_pw = PASSWORD(#{memberPw})
-		AND member_id NOT IN (SELECT admin_id FROM admin)
+		AND member_id NOT IN (SELECT admin_id FROM cashbook_admin)
 	</select>
 
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
-		INSERT INTO member(
+		INSERT INTO cashbook_member(
 			member_id, 
 			member_pw, 
 			member_name, 
@@ -107,9 +107,9 @@
 	<select id="selectMemberIdCnt" parameterType="String" resultType="int">
 		SELECT COUNT(*)
 		FROM
-			(SELECT member_id AS mi FROM member
+			(SELECT member_id AS mi FROM cashbook_member
 			UNION
-			SELECT memberid AS mi FROM memberid) t
+			SELECT memberid AS mi FROM  cashbook_memberid) t
 		WHERE mi = #{memberId};
 	</select>
 </mapper>

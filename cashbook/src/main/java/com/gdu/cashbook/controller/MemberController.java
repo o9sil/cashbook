@@ -86,14 +86,22 @@ public class MemberController {
 			return "redirect:/login";
 		}
 		
-		memberService.modifyMemberPwOne(updateMemberPw);
+		
+		//비밀번호 수정 실패시 다시 수정폼으로
+		if(memberService.modifyMemberPwOne(updateMemberPw) != 1) {
+			return "redirect:/modifyPassword?pw=false";
+		}
+		
+		
+		
+		
 		
 		return "redirect:/memberInfo";
 	}
 	
 	//비밀번호 수정 폼
 	@GetMapping("/modifyPassword")
-	public String modifyPassword(HttpSession session) {
+	public String modifyPassword(HttpSession session, @RequestParam(value = "pw", required = false) String pw) {
 		//로그인 중일때만 접근가능
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/login";

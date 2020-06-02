@@ -60,8 +60,8 @@ $(document).ready(function(){
 				<span id="pwHelper" th:text="${msg}"></span>
 			</div>	
 			<div class="loginInput">
-				<a href="/findMemberId">아이디 찾기</a>
-				<a href="/findMemberPw">비밀번호 찾기</a>
+				<a th:href="@{/findMemberId}">아이디 찾기</a>
+				<a th:href="@{/findMemberPw}">비밀번호 찾기</a>
 			</div>
 			<div class="loginInput">		
 				<button type="button" id="btn" class="btn btn-primary btn-block">로그인</button>

@@ -7,7 +7,7 @@
 	<!-- 한 해의 전체 합계 가져오기 -->
 	<select id="selectCashSumYear" parameterType="hashMap" resultType="int">
 		SELECT SUM(case when cash_kind='수입' then cash_price when cash_kind='지출' then -cash_price END) AS cash_price
-		FROM cash
+		FROM cashbook_cash
 		WHERE YEAR(cash_date) = #{year}
 		AND member_id = #{memberId}
 	</select>
@@ -19,7 +19,7 @@
 		SELECT 
 			MONTH(cash_date) AS month, 
 			SUM(case when cash_kind='수입' then cash_price when cash_kind='지출' then -cash_price END) AS price
-		FROM cash
+		FROM cashbook_cash
 		WHERE YEAR(cash_date) = #{year}
 		AND member_id = #{memberId}
 		GROUP BY MONTH(cash_date)
@@ -29,7 +29,7 @@
 	<!-- 가계부 관리 연도별 데이터 가져오기 -->
 	<select id="selectCashYearList" parameterType="String" resultType="java.time.Year">
 		SELECT YEAR(cash_date) 
-		FROM cash 
+		FROM cashbook_cash 
 		WHERE member_id = #{memberId} 
 		GROUP BY YEAR(cash_date)
 		ORDER BY YEAR(cash_date) DESC
@@ -37,7 +37,7 @@
 
 	<!-- 가계부 수정 -->
 	<update id="updateCashOne" parameterType="com.gdu.cashbook.vo.Cash">
-		UPDATE cash
+		UPDATE cashbook_cash
 		SET 
 			cash_date = #{cashDate},
 			cash_kind = #{cashKind},
@@ -60,25 +60,25 @@
 			cash_price AS cashPrice, 
 			cash_place AS cashPlace, 
 			cash_memo AS cashMemo
-		FROM cash
+		FROM cashbook_cash
 		WHERE cash_no = #{cashNo}
 	</select>
 
 	<!-- 가계부 내역 추가 -->
 	<insert id="insertCashOne" parameterType="com.gdu.cashbook.vo.Cash">
-		INSERT INTO cash(member_id, cash_date, cash_kind, category_name, cash_price, cash_place, cash_memo)
+		INSERT INTO cashbook_cash(member_id, cash_date, cash_kind, category_name, cash_price, cash_place, cash_memo)
 		VALUES(#{memberId}, #{cashDate}, #{cashKind}, #{categoryName}, #{cashPrice}, #{cashPlace}, #{cashMemo})
 	</insert>
 
 	<!-- 삭제시 삭제한 데이터의 날짜 가져오기 -->
 	<select id="selectDateOne" parameterType="int" resultType="java.time.LocalDate">
-		SELECT cash_date FROM cash WHERE cash_no=#{cashNo};
+		SELECT cash_date FROM cashbook_cash WHERE cash_no=#{cashNo};
 	</select>
 
 	<!-- 월 달력(일별 합계금액 가져오기) -->
 	<select id="selectDayAndPriceList" parameterType="hashMap" resultType="com.gdu.cashbook.vo.DayAndPrice">
 		SELECT DAY(cash_date) AS day, SUM(case when cash_kind='수입' then cash_price when cash_kind='지출' then -cash_price END) AS price
-		FROM cash
+		FROM cashbook_cash
 		WHERE YEAR(cash_date) = #{year}
 		AND MONTH(cash_date) = #{month}
 		AND member_id = #{memberId}
@@ -87,7 +87,7 @@
 
 	<!-- 가게부 내역 삭제 -->
 	<delete id="deleteCashOne" parameterType="com.gdu.cashbook.vo.Cash">
-		DELETE FROM cash
+		DELETE FROM cashbook_cash
 		WHERE cash_no = #{cashNo}
 		AND member_id = #{memberId}
 	</delete>
@@ -95,9 +95,9 @@
 	<!-- 일자별 수입 지출 합계 구하기 -->
 	<select id="selectCashKindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">		
 		SELECT
-		IFNULL(IFNULL((SELECT SUM(cash_price) FROM cash WHERE cash_date = #{cashDate} AND cash_kind = '수입' AND member_id = #{memberId}), 0)
+		IFNULL(IFNULL((SELECT SUM(cash_price) FROM cashbook_cash WHERE cash_date = #{cashDate} AND cash_kind = '수입' AND member_id = #{memberId}), 0)
 			-
-			IFNULL((SELECT SUM(cash_price) FROM cash WHERE cash_date = #{cashDate} AND cash_kind = '지출' AND member_id = #{memberId}), 0), 0)
+			IFNULL((SELECT SUM(cash_price) FROM cashbook_cash WHERE cash_date = #{cashDate} AND cash_kind = '지출' AND member_id = #{memberId}), 0), 0)
 		FROM dual
 	</select>
 
@@ -111,7 +111,7 @@
 			cash_price AS cashPrice,
 			cash_place AS cashPlace,
 			cash_memo AS cashMemo
-		FROM cash
+		FROM cashbook_cash
 		WHERE member_id = #{memberId} 
 			AND cash_date = #{cashDate}
 		ORDER BY cash_no ASC

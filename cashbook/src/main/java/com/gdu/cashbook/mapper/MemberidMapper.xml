@@ -5,7 +5,7 @@
 <mapper namespace="com.gdu.cashbook.mapper.MemberidMapper">
 
 	<insert id="insertMemberidOne" parameterType="String">
-		INSERT INTO memberid(memberid)
+		INSERT INTO cashbook_memberid(memberid)
 		VALUES(#{memberid})
 	</insert>
 

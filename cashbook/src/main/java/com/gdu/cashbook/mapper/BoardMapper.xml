@@ -7,13 +7,13 @@
 	<!-- 관리자글 접근권한 확인 -->
 	<select id="selectMemberIdBoard" parameterType="com.gdu.cashbook.vo.Board" resultType="String">
 		SELECT member_id 
-		from board 
-		where board_no = (SELECT board_parent FROM board WHERE board_no=#{boardNo} AND member_id IN (SELECT admin_id FROM admin))
+		from cashbook_board 
+		where board_no = (SELECT board_parent FROM cashbook_board WHERE board_no=#{boardNo} AND member_id IN (SELECT admin_id FROM cashbook_admin))
 	</select>
 
 	<!-- 게시글 답글달기 -->
 	<insert id="insertBoardReply" parameterType="com.gdu.cashbook.vo.Board">
-		INSERT INTO board
+		INSERT INTO cashbook_board
 		(
 			member_id, 
 			board_title, 
@@ -33,31 +33,31 @@
 			#{boardParent}, 
 			MAX(board_re_no)+1, 
 			1 
-		FROM board 
+		FROM cashbook_board 
 		WHERE board_parent = #{boardParent}
 	</insert>
 
 	<!-- 새로 등록한 게시글 board_parent 변경 -->
 	<update id="updateBoardParent" parameterType="com.gdu.cashbook.vo.Board">
-		UPDATE board
+		UPDATE cashbook_board
 		SET board_parent = #{boardNo}
 		WHERE board_no = #{boardNo}
 	</update>
 	
 	<!-- 게시글 삭제 -->
 	<delete id="deleteBoardOne" parameterType="com.gdu.cashbook.vo.Board">
-		DELETE FROM board
+		DELETE FROM cashbook_board
 		WHERE board_no = #{boardNo}
 		AND member_id = #{memberId}
 	</delete>
 
 	<!-- 게시글 작성자명 가져오기 -->
 	<select id="selectBoardMemberId" parameterType="int" resultType="String">
-		SELECT member_id FROM board WHERE board_no = #{boardNo}
+		SELECT member_id FROM cashbook_board WHERE board_no = #{boardNo}
 	</select>
 	<!-- 게시글 수정 -->
 	<update id="updateBoardOne" parameterType="com.gdu.cashbook.vo.Board">
-		UPDATE board 
+		UPDATE cashbook_board 
 		SET
 			board_title = #{boardTitle}, 
 			board_content = #{boardContent},
@@ -68,7 +68,7 @@
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoardOne" parameterType="com.gdu.cashbook.vo.Board" useGeneratedKeys="true" keyProperty="boardNo">
-		INSERT INTO board
+		INSERT INTO cashbook_board
 		(
 			member_id, 
 			board_title, 
@@ -92,7 +92,7 @@
 
 	<!-- 게시글 접근 레벨 확인하기 1=자기만 0=모두 -->
 	<select id="selectBoardLevel" resultType="int" parameterType="int">
-		SELECT board_level FROM board where board_no = #{boardNo}
+		SELECT board_level FROM cashbook_board where board_no = #{boardNo}
 	</select>
 	
 	<!-- 게시글 상세보기 -->
@@ -107,7 +107,7 @@
 			board_parent AS boardParent,
 			board_re_no AS boardReNo,
 			board_re_level AS boardReLevel
-		FROM board
+		FROM cashbook_board
 		WHERE board_no = #{boardNo}
 		<if test="memberId != null">
 			AND member_id = #{memberId}
@@ -124,7 +124,7 @@
 			date(board_date) AS boardDate,
 			board_level AS boardLevel,
 			board_re_level AS boardReLevel
-		FROM board
+		FROM cashbook_board
 		WHERE board_title LIKE CONCAT('%', #{search}, '%') 
 		ORDER BY board_parent DESC, board_re_no ASC
 		LIMIT #{beginRow}, #{rowPerPage}
@@ -134,7 +134,7 @@
 	<select id="selectBoardCount" resultType="int" parameterType="String">
 		SELECT 
 			count(*) 
-		FROM board
+		FROM cashbook_board
 		WHERE board_title LIKE CONCAT('%', #{search}, '%')
 	</select>
 
