@@ -44,8 +44,8 @@ $(document).ready(function(){
 	$("#cashKind").change(function(){
 		//alert(this.value);
 		let cashKind = this.value;
-        $.ajax({
-            url:'/getCategory'
+        $.ajax({        	
+            url: '/cashbook/getCategory'
             ,type:'POST'
             ,data:{'categoryDesc':cashKind}
             ,success : function(data) {

@@ -27,7 +27,8 @@ public class MemberService {
 	@Autowired private MemberidMapper memberidMapper;
 	@Autowired private JavaMailSender javaMailSender;
 	
-	@Value("D:/git-cashbook/cashbook/src/main/resources/static/styles/upload/")
+	//@Value("D:/git-cashbook/cashbook/src/main/resources/static/styles/upload/")
+	@Value("/kanghogado/tomcat/webapps/cashbook/WEB-INF/classes/static/styles/upload/")
 	private String path;
 	
 	//사진 가져오기
